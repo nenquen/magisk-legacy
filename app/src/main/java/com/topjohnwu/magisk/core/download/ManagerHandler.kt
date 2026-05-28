@@ -55,21 +55,5 @@ suspend fun BaseDownloader.handleAPK(subject: Subject.Manager, stream: InputStre
         withStreams(stream, o) { src, out -> src.copyTo(out) }
     }
 
-    if (isRunningAsStub) {
-        val apk = subject.file.toFile()
-        val id = subject.notifyID()
-        write(DynAPK.update(this).outputStream())
-        if (Info.stub!!.version < subject.stub.versionCode) {
-            // Also upgrade stub
-            notifyHide(id)
-            service.fetchFile(subject.stub.link).byteStream().writeTo(apk)
-            patch(apk)
-        } else {
-            // Simply relaunch the app
-            stopSelf()
-            relaunchApp(this)
-        }
-    } else {
-        write(subject.file.outputStream())
-    }
+    write(subject.file.outputStream())
 }

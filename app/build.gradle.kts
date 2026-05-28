@@ -98,20 +98,10 @@ val syncLibs by tasks.registering(Sync::class) {
     }
 }
 
-val createStubLibs by tasks.registering {
-    dependsOn(syncLibs)
-    doLast {
-        val arm64 = project.file("src/main/jniLibs/arm64-v8a/libstub.so")
-        arm64.parentFile.mkdirs()
-        arm64.createNewFile()
-        val x64 = project.file("src/main/jniLibs/x86_64/libstub.so")
-        x64.parentFile.mkdirs()
-        x64.createNewFile()
-    }
-}
+
 
 val syncAssets by tasks.registering(Sync::class) {
-    dependsOn(createStubLibs)
+    dependsOn(syncLibs)
     inputs.property("version", Config.version)
     inputs.property("versionCode", Config.versionCode)
     into("src/main/assets")

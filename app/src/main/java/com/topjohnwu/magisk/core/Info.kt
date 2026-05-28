@@ -14,11 +14,11 @@ import com.topjohnwu.superuser.internal.UiThreadHandler
 import java.io.File
 import java.io.IOException
 
-val isRunningAsStub get() = Info.stub != null
+val isRunningAsStub get() = false
 
 object Info {
 
-    var stub: DynAPK.Data? = null
+
 
     val EMPTY_REMOTE = UpdateInfo()
     var remote = EMPTY_REMOTE

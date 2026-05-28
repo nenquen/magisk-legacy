@@ -74,7 +74,7 @@ subprojects {
             }
         }
 
-        if (name == "app" || name == "stub") {
+        if (name == "app") {
             android {
                 signingConfigs {
                     create("config") {

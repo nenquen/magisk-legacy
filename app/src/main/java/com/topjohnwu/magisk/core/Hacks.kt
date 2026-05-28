@@ -45,7 +45,7 @@ fun Context.wrapJob(): Context = object : InjectedContext(this) {
 }
 
 fun Class<*>.cmp(pkg: String) =
-    ComponentName(pkg, Info.stub?.classToComponent?.get(name) ?: name)
+    ComponentName(pkg, name)
 
 inline fun <reified T> Activity.redirect() = Intent(intent)
     .setComponent(T::class.java.cmp(packageName))
@@ -111,7 +111,7 @@ private class JobSchedulerWrapper(private val base: JobScheduler) : JobScheduler
         // Swap out the service of JobInfo
         val component = service.run {
             ComponentName(packageName,
-                Info.stub?.classToComponent?.get(className) ?: className)
+                className)
         }
         javaClass.getDeclaredField("service").apply {
             isAccessible = true

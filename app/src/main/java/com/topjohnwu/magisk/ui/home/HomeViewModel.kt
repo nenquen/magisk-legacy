@@ -64,9 +64,7 @@ class HomeViewModel(
     var managerRemoteVersion = R.string.loading.asText()
         set(value) = set(value, field, { field = it }, BR.managerRemoteVersion)
 
-    val managerInstalledVersion = Info.stub?.let {
-        "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) (${it.version})"
-    } ?: "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+    val managerInstalledVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
     @get:Bindable
     var stateManagerProgress = 0
@@ -93,7 +91,7 @@ class HomeViewModel(
             }
 
             managerRemoteVersion =
-                "${magisk.version} (${magisk.versionCode}) (${stub.versionCode})".asText()
+                "${magisk.version} (${magisk.versionCode})".asText()
 
             launch {
                 ensureEnv()

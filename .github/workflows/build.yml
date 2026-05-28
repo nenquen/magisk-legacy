@@ -76,15 +76,14 @@ jobs:
         if: steps.ndk-cache.outputs.cache-hit != 'true'
         run: python build.py ndk
 
-      - name: Build release
-        run: python build.py -vr all
+      - name: Build Native Binaries
+        run: python build.py binary
 
-      - name: Refresh flag
-        run: touch gradle.properties
-        shell: bash
+      - name: Build release (Gradle)
+        run: ./gradlew :app:assembleRelease
 
-      - name: Build debug
-        run: python build.py -v all
+      - name: Build debug (Gradle)
+        run: ./gradlew :app:assembleDebug
 
       # Sadece Magisk Manager APK'larını yükleyelim (stub'ları hariç tutalım)
       - name: Upload build artifact
@@ -92,4 +91,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: magisk-manager-${{ github.sha }}
-          path: out/app-*.apk
+          path: app/build/outputs/apk/*/*.apk

@@ -23,7 +23,7 @@ import kotlin.system.exitProcess
 open class App() : Application() {
 
     constructor(o: Any) : this() {
-        Info.stub = DynAPK.load(o)
+
     }
 
     init {

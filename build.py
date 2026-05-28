@@ -261,12 +261,8 @@ def run_ndk_build(flags):
 
 
 def dump_bin_headers():
-    stub = op.join(config['outdir'], 'stub-release.apk')
-    if not op.exists(stub):
-        error('Build stub APK before building "magiskinit"')
     with open(op.join('native', 'out', 'binaries.h'), 'w') as out:
-        with open(stub, 'rb') as src:
-            binary_dump(src, out, 'manager_xz')
+        out.write('constexpr unsigned char manager_xz[] = { 0 };\n')
 
 
 def build_binary(args):
@@ -444,7 +440,6 @@ def setup_ndk(args):
 
 def build_all(args):
     vars(args)['target'] = []
-    build_stub(args)
     build_binary(args)
     build_app(args)
 

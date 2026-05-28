@@ -70,22 +70,13 @@ android {
 }
 
 val buildNativeBinaries by tasks.registering(Exec::class) {
-    workingDir = rootProject.file("native")
-    val ndkBuild = File(android.ndkDirectory, "ndk-build").absolutePath
-    val cpus = Runtime.getRuntime().availableProcessors()
-    commandLine(
-        ndkBuild,
-        "-j$cpus",
-        "B_MAGISK=1", "B_64BIT=1", "B_INIT=1", "B_POLICY=1", "B_PROP=1", "B_BOOT=1", "B_BB=1",
-        "NDK_PROJECT_PATH=.",
-        "APP_BUILD_SCRIPT=jni/Android.mk",
-        "APP_ABI=armeabi-v7a,arm64-v8a,x86,x86_64",
-        "MAGISK_VERSION=${Config.version}",
-        "MAGISK_VER_CODE=${Config.versionCode}"
-    )
+    workingDir = rootProject.file(".")
+    commandLine("python", "build.py", "binary")
     doFirst {
-        rootProject.file("native/out").mkdirs()
-        rootProject.file("native/out/binaries.h").writeText("constexpr unsigned char manager_xz[] = { 0 };\n")
+        exec {
+            workingDir = rootProject.file(".")
+            commandLine("python", "build.py", "ndk")
+        }
     }
 }
 

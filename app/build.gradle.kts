@@ -69,6 +69,26 @@ android {
     }
 }
 
+val buildNativeBinaries by tasks.registering(Exec::class) {
+    workingDir = rootProject.file("native")
+    val ndkBuild = File(android.ndkDirectory, "ndk-build").absolutePath
+    val cpus = Runtime.getRuntime().availableProcessors()
+    commandLine(
+        ndkBuild,
+        "-j$cpus",
+        "B_MAGISK=1", "B_64BIT=1", "B_INIT=1", "B_POLICY=1", "B_PROP=1", "B_BOOT=1", "B_BB=1",
+        "NDK_PROJECT_PATH=.",
+        "APP_BUILD_SCRIPT=jni/Android.mk",
+        "APP_ABI=armeabi-v7a,arm64-v8a,x86,x86_64",
+        "MAGISK_VERSION=${Config.version}",
+        "MAGISK_VER_CODE=${Config.versionCode}"
+    )
+    doFirst {
+        rootProject.file("native/out").mkdirs()
+        rootProject.file("native/out/binaries.h").writeText("constexpr unsigned char manager_xz[] = { 0 };\n")
+    }
+}
+
 val syncLibs by tasks.registering(Sync::class) {
     into("src/main/jniLibs")
     into("armeabi-v7a") {
@@ -91,11 +111,7 @@ val syncLibs by tasks.registering(Sync::class) {
             rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
         }
     }
-    onlyIf {
-        if (inputs.sourceFiles.files.size != 10)
-            throw StopExecutionException("Please build binaries first! (./build.py binary)")
-        true
-    }
+    dependsOn(buildNativeBinaries)
 }
 
 

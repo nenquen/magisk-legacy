@@ -22,6 +22,11 @@
 	public static void throw*(...);
 }
 
+# Navigation
+-keepattributes RuntimeVisibleAnnotations
+-keep class androidx.navigation.** { *; }
+-keep @androidx.navigation.Navigator$Name class *
+
 # Snet
 -keepclassmembers class com.topjohnwu.magisk.ui.safetynet.SafetyNetHelper { *; }
 -keep,allowobfuscation interface com.topjohnwu.magisk.ui.safetynet.SafetyNetHelper$Callback

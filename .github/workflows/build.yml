@@ -86,10 +86,10 @@ jobs:
       - name: Build debug
         run: python build.py -v all
 
-      # Only upload artifacts built on Linux to avoid duplicates
+      # Sadece Magisk Manager APK'larını yükleyelim (stub'ları hariç tutalım)
       - name: Upload build artifact
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: magisk-build-${{ github.sha }}
-          path: out
+          name: magisk-manager-${{ github.sha }}
+          path: out/app-*.apk

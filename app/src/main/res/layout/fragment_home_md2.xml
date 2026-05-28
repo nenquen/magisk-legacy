@@ -71,8 +71,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/l1" />
 
-
-
             <Button
                 style="@style/WidgetFoundation.Button.Outlined.Error"
                 goneUnless="@{Info.env.isActive}"

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="WidgetFoundation.Appbar" parent="Widget.MaterialComponents.AppBarLayout.Surface" />
+    <style name="WidgetFoundation.Appbar" parent="Widget.MaterialComponents.AppBarLayout.Surface">
+        <!-- Match window background exactly — no separate AppBar color -->
+        <item name="android:background">@android:color/transparent</item>
+        <item name="elevation">0dp</item>
+        <item name="liftOnScroll">false</item>
+    </style>
 
     <style name="WidgetFoundation.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
         <item name="titleTextAppearance">@style/AppearanceFoundation.Title</item>
@@ -11,13 +16,15 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
         <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
 
     <style name="WidgetFoundation.Card" parent="Widget.MaterialComponents.CardView">
         <item name="android:focusable">auto</item>
-        <item name="cardBackgroundColor">?colorSurfaceVariant</item>
-        <item name="cardCornerRadius">@dimen/l_50</item>
+        <!-- Uses theme color so dark mode gets #1C1C1E, light mode gets #FFFFFF -->
+        <item name="cardBackgroundColor">?colorSurface</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
         <item name="cardElevation">0dp</item>
         <item name="cardPreventCornerOverlap">false</item>
     </style>
@@ -31,9 +38,10 @@
     </style>
 
     <style name="WidgetFoundation.Card.Elevated">
+        <!-- Uses theme color: white on light, #2C2C2E on dark -->
         <item name="cardBackgroundColor">?colorSurfaceSurfaceVariant</item>
-        <item name="cardCornerRadius">@dimen/l_50</item>
-        <item name="cardElevation">@dimen/l_125</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">1dp</item>
     </style>
 
     <style name="WidgetFoundation.Card.OnPrimary">
@@ -59,11 +67,13 @@
     </style>
 
     <style name="WidgetFoundation.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textStyle">bold</item>
+        <!-- YASNAC: normal weight, rounded -->
+        <item name="android:textStyle">normal</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">@dimen/l_50</item>
         <item name="strokeColor">?colorPrimary</item>
         <item name="android:textColor">?colorPrimary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Button.Rounded</item>
     </style>
 
     <style name="WidgetFoundation.Button.Outlined.OnPrimary">

@@ -4,23 +4,25 @@
     <!--1st party themes-->
 
     <style name="ThemeFoundationMD2.Piplup">
-        <item name="colorPrimary">#4EAFF5</item>
-        <item name="colorPrimaryVariant">#804EAFF5</item>
-        <item name="colorSecondary">#3E78AF</item>
-        <item name="colorSecondaryVariant">#803E78AF</item>
-        <item name="colorSurface">#0D0D0D</item>
-        <item name="colorSurfaceVariant">#171717</item>
-        <item name="colorSurfaceSurfaceVariant">#292929</item>
-        <item name="colorOnPrimary">#F9F9F9</item>
-        <item name="colorOnPrimaryVariant">#D9E6E6E6</item>
-        <item name="colorOnSecondary">#F9F9F9</item>
-        <item name="colorOnBackground">?colorOnSurface</item>
-        <item name="colorError">#EF8282</item>
-        <item name="colorOnError">#0D0D0D</item>
-        <item name="colorOnSurface">#D8D8D8</item>
-        <item name="colorOnSurfaceVariant">#CCBABABA</item>
-        <item name="colorDisabled">#808080</item>
-        <item name="colorDisabledVariant">#66808080</item>
+        <!-- YASNAC dark: vivid blue accent works great on dark -->
+        <item name="colorPrimary">#0A84FF</item>
+        <item name="colorPrimaryVariant">#800A84FF</item>
+        <item name="colorSecondary">#0066CC</item>
+        <item name="colorSecondaryVariant">#800066CC</item>
+        <!-- Dark card surfaces — like YASNAC dark mode -->
+        <item name="colorSurface">#1C1C1E</item>
+        <item name="colorSurfaceVariant">#2C2C2E</item>
+        <item name="colorSurfaceSurfaceVariant">#2C2C2E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorOnPrimaryVariant">#D9FFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorOnBackground">#F2F2F7</item>
+        <item name="colorError">#FF453A</item>
+        <item name="colorOnError">#FFFFFF</item>
+        <item name="colorOnSurface">#F2F2F7</item>
+        <item name="colorOnSurfaceVariant">#8E8E93</item>
+        <item name="colorDisabled">#636366</item>
+        <item name="colorDisabledVariant">#66636366</item>
     </style>
 
     <style name="ThemeFoundationMD2.Amoled" parent="ThemeFoundationMD2.Piplup">

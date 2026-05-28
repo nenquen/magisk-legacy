@@ -21,6 +21,15 @@
         <item name="android:includeFontPadding">false</item>
         <item name="actionBarSize">@dimen/internal_action_bar_size</item>
         <item name="popupMenuStyle">@style/Foundation.PopupMenu</item>
+        <!-- YASNAC: light gray background for all screens -->
+        <item name="android:colorBackground">#F2F2F7</item>
+        <item name="android:windowBackground">#F2F2F7</item>
+    </style>
+
+    <!-- Fully rounded pill-shaped buttons like YASNAC -->
+    <style name="ShapeAppearance.Button.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="Foundation.Floating" parent="Empty">

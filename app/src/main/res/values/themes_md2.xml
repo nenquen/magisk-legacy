@@ -43,23 +43,28 @@
     <!--1st party themes-->
 
     <style name="ThemeFoundationMD2.Piplup">
-        <item name="colorPrimary">#4EAFF5</item>
-        <item name="colorPrimaryVariant">#804EAFF5</item>
-        <item name="colorSecondary">#3E78AF</item>
-        <item name="colorSecondaryVariant">#803E78AF</item>
-        <item name="colorSurface">#F9F9F9</item>
-        <item name="colorSurfaceVariant">#E8E8E8</item>
-        <item name="colorSurfaceSurfaceVariant">?colorSurface</item>
-        <item name="colorOnPrimary">#F9F9F9</item>
-        <item name="colorOnPrimaryVariant">#D9E6E6E6</item>
-        <item name="colorOnSecondary">#F9F9F9</item>
-        <item name="colorOnBackground">?colorOnSurface</item>
-        <item name="colorError">#CC0047</item>
-        <item name="colorOnError">#F9F9F9</item>
-        <item name="colorOnSurface">#444444</item>
-        <item name="colorOnSurfaceVariant">#BF444444</item>
-        <item name="colorDisabled">#808080</item>
-        <item name="colorDisabledVariant">#66808080</item>
+        <!-- YASNAC-style: clean teal/blue accent -->
+        <item name="colorPrimary">#1A8BFF</item>
+        <item name="colorPrimaryVariant">#801A8BFF</item>
+        <item name="colorSecondary">#0D6EFD</item>
+        <item name="colorSecondaryVariant">#800D6EFD</item>
+        <!-- Pure white cards to contrast soft gray background -->
+        <item name="colorSurface">#FFFFFF</item>
+        <!-- Cards explicitly white -->
+        <item name="colorSurfaceVariant">#F2F2F7</item>
+        <!-- Background behind cards: iOS-style light gray -->
+        <item name="colorSurfaceSurfaceVariant">#FFFFFF</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorOnPrimaryVariant">#D9FFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorOnBackground">#1C1C1E</item>
+        <item name="colorError">#FF3B30</item>
+        <item name="colorOnError">#FFFFFF</item>
+        <!-- Dark readable text on white surface -->
+        <item name="colorOnSurface">#1C1C1E</item>
+        <item name="colorOnSurfaceVariant">#8E8E93</item>
+        <item name="colorDisabled">#AEAEB2</item>
+        <item name="colorDisabledVariant">#66AEAEB2</item>
     </style>
 
     <style name="ThemeFoundationMD2.Amoled" parent="ThemeFoundationMD2.Piplup">

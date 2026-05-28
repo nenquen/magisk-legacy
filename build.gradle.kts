@@ -45,7 +45,7 @@ subprojects {
         if (plugins.hasPlugin("com.android.library") ||
             plugins.hasPlugin("com.android.application")) {
             android {
-                compileSdkVersion(30)
+                compileSdkVersion(31)
                 buildToolsVersion = "30.0.3"
                 val magiskNdk = file("${sdkDirectory.absolutePath}/ndk/magisk")
                 if (magiskNdk.exists()) {

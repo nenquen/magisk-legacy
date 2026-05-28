@@ -48,6 +48,9 @@ jobs:
           path: /usr/local/lib/android/sdk/ndk/21.4.7075529
           key: ${{ runner.os }}-ndk-21.4.7075529
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Build release (Gradle)
         run: ./gradlew :app:assembleRelease
 

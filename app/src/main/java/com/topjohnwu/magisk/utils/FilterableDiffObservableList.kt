@@ -68,7 +68,7 @@ class FilterableDiffObservableList<T>(
         return sublist.addAll(index, elements)
     }
 
-    override fun remove(element: T): Boolean {
+    override fun remove(element: T?): Boolean {
         return sublist.remove(element)
     }
 

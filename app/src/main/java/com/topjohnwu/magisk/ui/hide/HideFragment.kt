@@ -68,6 +68,7 @@ class HideFragment : BaseUIFragment<HideViewModel, FragmentHideMd2Binding>() {
         binding.hideContent.fixEdgeEffect()
 
         val lama = binding.hideContent.layoutManager ?: return
+        @Suppress("DEPRECATION")
         lama.isAutoMeasureEnabled = false
     }
 

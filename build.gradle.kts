@@ -3,8 +3,8 @@ import com.topjohnwu.magisk.build.Config
 
 plugins {
     id("MagiskPlugin")
-    kotlin("android") version "1.6.21" apply false
-    kotlin("kapt") version "1.6.21" apply false
+    kotlin("android") version "1.7.20" apply false
+    kotlin("kapt") version "1.7.20" apply false
 }
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -19,7 +19,7 @@ buildscript {
 
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.3")
-        classpath(kotlin("gradle-plugin", version = "1.6.21"))
+        classpath(kotlin("gradle-plugin", version = "1.7.20"))
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${vNav}")
     }
 }

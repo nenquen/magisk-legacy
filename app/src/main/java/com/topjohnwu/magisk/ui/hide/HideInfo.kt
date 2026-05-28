@@ -91,7 +91,7 @@ class HideAppInfo(info: ApplicationInfo, pm: PackageManager, hideList: List<Cmdl
 
     companion object {
         private val comparator = compareBy<HideAppInfo>(
-            { it.label.toLowerCase(currentLocale) },
+            { it.label.lowercase(currentLocale) },
             { it.packageName }
         )
     }

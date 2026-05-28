@@ -137,7 +137,7 @@ open class DiffObservableList<T>(
         }
     }
 
-    override fun remove(element: T): Boolean {
+    override fun remove(element: T?): Boolean {
         val index = indexOf(element)
         return if (index >= 0) {
             removeAt(index)

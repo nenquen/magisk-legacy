@@ -44,21 +44,21 @@ private object LayoutInflaterFactoryDefaultImpl {
     private val constructorMap = SimpleArrayMap<String, Constructor<out View?>>()
 
     fun createViewFromTag(context: Context, name: String, attrs: AttributeSet): View? {
-        var name = name
-        if (name == "view") {
-            name = attrs.getAttributeValue(null, "class")
+        var viewName = name
+        if (viewName == "view") {
+            viewName = attrs.getAttributeValue(null, "class") ?: return null
         }
         return try {
-            if (-1 == name.indexOf('.')) {
+            if (-1 == viewName.indexOf('.')) {
                 for (prefix in classPrefixList) {
-                    val view: View? = createViewByPrefix(context, name, attrs, prefix)
+                    val view: View? = createViewByPrefix(context, viewName, attrs, prefix)
                     if (view != null) {
                         return view
                     }
                 }
                 null
             } else {
-                createViewByPrefix(context, name, attrs, null)
+                createViewByPrefix(context, viewName, attrs, null)
             }
         } catch (e: Exception) {
             null

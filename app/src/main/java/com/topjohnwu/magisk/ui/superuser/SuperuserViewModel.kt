@@ -58,7 +58,7 @@ class SuperuserViewModel(
             val policies = db.fetchAll {
                 PolicyRvItem(it, it.icon, this@SuperuserViewModel)
             }.sortedWith(compareBy(
-                { it.item.appName.toLowerCase(currentLocale) },
+                { it.item.appName.lowercase(currentLocale) },
                 { it.item.packageName }
             ))
             policies to itemsPolicies.calculateDiff(policies)

@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import com.google.android.material.animation.AnimationUtils
 
+@Suppress("UNUSED_PARAMETER")
 class HideTopViewOnScrollBehavior<V : View>(context: Context, attrs: AttributeSet) :
     CoordinatorLayout.Behavior<V>(), HideableBehavior<V> {
 

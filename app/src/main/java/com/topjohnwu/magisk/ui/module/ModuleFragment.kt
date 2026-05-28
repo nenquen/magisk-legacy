@@ -149,6 +149,7 @@ class ModuleFragment : BaseUIFragment<ModuleViewModel, FragmentModuleMd2Binding>
 
     private fun setEndlessScroller() {
         val lama = binding.moduleList.layoutManager ?: return
+        @Suppress("DEPRECATION")
         lama.isAutoMeasureEnabled = false
 
         val listener = EndlessRecyclerScrollListener(lama, viewModel::loadRemote)
@@ -158,6 +159,7 @@ class ModuleFragment : BaseUIFragment<ModuleViewModel, FragmentModuleMd2Binding>
 
     private fun setEndlessSearch() {
         val lama = binding.moduleFilterInclude.moduleFilterList.layoutManager ?: return
+        @Suppress("DEPRECATION")
         lama.isAutoMeasureEnabled = false
 
         val listener = EndlessRecyclerScrollListener(lama, viewModel::loadMoreQuery)

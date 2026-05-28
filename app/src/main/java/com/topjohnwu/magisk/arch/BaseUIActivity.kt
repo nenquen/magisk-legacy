@@ -57,6 +57,7 @@ abstract class BaseUIActivity<VM : BaseViewModel, Binding : ViewDataBinding> :
             .use { it.getDrawable(0) }
             .also { window.setBackgroundDrawable(it) }
 
+        @Suppress("DEPRECATION")
         window?.decorView?.let {
             it.systemUiVisibility = (it.systemUiVisibility
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -66,6 +67,7 @@ abstract class BaseUIActivity<VM : BaseViewModel, Binding : ViewDataBinding> :
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             window?.decorView?.post {
+                @Suppress("DEPRECATION")
                 // If navigation bar is short enough (gesture navigation enabled), make it transparent
                 if (window.decorView.rootWindowInsets?.systemWindowInsetBottom ?: 0 < Resources.getSystem().displayMetrics.density * 40) {
                     window.navigationBarColor = Color.TRANSPARENT

@@ -12,7 +12,7 @@ object BiometricHelper {
 
     private val mgr by lazy { BiometricManager.from(AppContext) }
 
-    val isSupported get() = when (mgr.canAuthenticate()) {
+    val isSupported get() = when (mgr.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
         BiometricManager.BIOMETRIC_SUCCESS -> true
         else -> false
     }
@@ -48,7 +48,7 @@ object BiometricHelper {
         )
         val info = BiometricPrompt.PromptInfo.Builder()
             .setConfirmationRequired(true)
-            .setDeviceCredentialAllowed(false)
+            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
             .setTitle(activity.getString(R.string.authenticate))
             .setNegativeButtonText(activity.getString(android.R.string.cancel))
             .build()

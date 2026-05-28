@@ -83,7 +83,7 @@ class LocalModule(path: String) : Module() {
                 .orEmpty()
                 .filter { !it.isFile }
                 .map { LocalModule("${Const.MAGISK_PATH}/${it.name}") }
-                .sortedBy { it.name.toLowerCase() }
+                .sortedBy { it.name.lowercase() }
         }
     }
 }

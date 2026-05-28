@@ -1,3 +1,4 @@
+@file:Suppress("DEPRECATION")
 package com.topjohnwu.magisk.events.dialog
 
 import android.app.ProgressDialog

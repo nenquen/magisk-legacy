@@ -51,6 +51,7 @@ open class MainActivity : BaseUIActivity<MainViewModel, ActivityMainMd2Binding>(
         showUnsupportedMessage()
         askForHomeShortcut()
 
+        @Suppress("DEPRECATION")
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         navigation?.addOnDestinationChangedListener { _, destination, _ ->

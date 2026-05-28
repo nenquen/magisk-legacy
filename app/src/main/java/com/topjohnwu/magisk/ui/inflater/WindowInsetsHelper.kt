@@ -197,6 +197,7 @@ open class WindowInsetsHelper private constructor(
         @JvmStatic
         fun attach(view: View, edgeToEdge: Boolean, fitsSystemWindowsInsets: Int, layout_fitsSystemWindowsInsets: Int, consumeSystemWindowsInsets: Int) {
             if (edgeToEdge) {
+                @Suppress("DEPRECATION")
                 view.systemUiVisibility = (view.systemUiVisibility
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN

@@ -15,6 +15,7 @@ import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.core.Info
 import kotlin.math.roundToInt
 
+@Suppress("UNUSED_PARAMETER")
 class HideBottomViewOnScrollBehavior<V : View>(context: Context, attrs: AttributeSet) :
     HideBottomViewOnScrollBehavior<V>(), HideableBehavior<V> {
 
@@ -49,6 +50,7 @@ class HideBottomViewOnScrollBehavior<V : View>(context: Context, attrs: Attribut
 
     //---
 
+    @Suppress("UNUSED_PARAMETER")
     private fun onDependentViewChanged(
         parent: CoordinatorLayout,
         child: V,
@@ -69,6 +71,7 @@ class HideBottomViewOnScrollBehavior<V : View>(context: Context, attrs: Attribut
         return false
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun onDependentViewRemoved(
         parent: CoordinatorLayout,
         child: V,

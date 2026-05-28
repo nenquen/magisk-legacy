@@ -17,8 +17,12 @@ data class OpenInappLinkEvent(
     // todo find app that can open the link and as a fallback open custom tabs! it shouldn't be the default
     override fun invoke(context: Context) = CustomTabsIntent.Builder()
         .setShowTitle(true)
-        .setToolbarColor(context.themedColor(R.attr.colorSurface))
-        .enableUrlBarHiding()
+        .setDefaultColorSchemeParams(
+            androidx.browser.customtabs.CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(context.themedColor(R.attr.colorSurface))
+                .build()
+        )
+        .setUrlBarHidingEnabled(true)
         .build()
         .launchUrl(context, link.toUri())
 

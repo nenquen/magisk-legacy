@@ -98,6 +98,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 
+    @Suppress("DEPRECATION")
     @CallSuper
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -107,6 +108,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     fun startActivityForResult(intent: Intent, callback: ActivityResultCallback) {
         val requestCode = newRequestCode
         resultCallbacks[requestCode] = callback

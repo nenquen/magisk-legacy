@@ -23,6 +23,7 @@ import kotlin.system.exitProcess
 
 open class App() : Application() {
 
+    @Suppress("UNUSED_PARAMETER")
     constructor(o: Any) : this() {
 
     }

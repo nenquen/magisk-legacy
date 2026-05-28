@@ -49,10 +49,16 @@ jobs:
       - name: Build debug (Gradle)
         run: ./gradlew :app:assembleDebug
 
-      # Sadece Magisk Manager APK'larını yükleyelim (stub'ları hariç tutalım)
-      - name: Upload build artifact
+      - name: Upload Release APK
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: magisk-manager-${{ github.sha }}
-          path: app/build/outputs/apk/*/*.apk
+          name: magisk-release-${{ github.sha }}
+          path: app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload Debug APK
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: magisk-debug-${{ github.sha }}
+          path: app/build/outputs/apk/debug/app-debug.apk

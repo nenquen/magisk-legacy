@@ -9,7 +9,6 @@
 
         <import type="com.topjohnwu.magisk.ui.home.MagiskState" />
 
-        <import type="com.topjohnwu.magisk.ui.home.DeveloperItem" />
 
         <variable
             name="viewModel"
@@ -140,56 +139,7 @@
                 app:cornerRadius="@dimen/r1"
                 app:icon="@drawable/ic_delete_md2" />
 
-            <com.google.android.material.card.MaterialCardView
-                style="@style/WidgetFoundation.Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/l1"
-                android:focusable="false">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/l1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/l1"
-                        android:layout_marginEnd="@dimen/l1"
-                        android:text="@string/home_support_title"
-                        android:textAppearance="@style/AppearanceFoundation.Title" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/l1"
-                        android:layout_marginTop="@dimen/l_50"
-                        android:layout_marginEnd="@dimen/l1"
-                        android:text="@string/home_support_content"
-                        android:textAppearance="@style/AppearanceFoundation.Caption.Variant" />
-
-                    <include
-                        item="@{DeveloperItem.Main.INSTANCE}"
-                        layout="@layout/item_developer"
-                        viewModel="@{viewModel}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/l_50" />
-
-                    <include
-                        item="@{DeveloperItem.App.INSTANCE}"
-                        layout="@layout/item_developer"
-                        viewModel="@{viewModel}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/l_50" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

@@ -69,46 +69,10 @@ android {
     }
 }
 
-val buildNativeBinaries by tasks.registering(Exec::class) {
-    workingDir = rootProject.file(".")
-    commandLine("python", "build.py", "binary")
-    doFirst {
-        exec {
-            workingDir = rootProject.file(".")
-            commandLine("python", "build.py", "ndk")
-        }
-    }
-}
-
-val syncLibs by tasks.registering(Sync::class) {
-    into("src/main/jniLibs")
-    into("armeabi-v7a") {
-        from(rootProject.file("native/out/armeabi-v7a")) {
-            include("busybox", "magiskboot", "magiskinit", "magisk")
-            rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
-        }
-        from(rootProject.file("native/out/arm64-v8a")) {
-            include("magisk")
-            rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
-        }
-    }
-    into("x86") {
-        from(rootProject.file("native/out/x86")) {
-            include("busybox", "magiskboot", "magiskinit", "magisk")
-            rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
-        }
-        from(rootProject.file("native/out/x86_64")) {
-            include("magisk")
-            rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
-        }
-    }
-    dependsOn(buildNativeBinaries)
-}
 
 
 
 val syncAssets by tasks.registering(Sync::class) {
-    dependsOn(syncLibs)
     inputs.property("version", Config.version)
     inputs.property("versionCode", Config.versionCode)
     into("src/main/assets")

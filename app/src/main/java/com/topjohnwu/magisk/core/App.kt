@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import androidx.multidex.MultiDex
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.WorkManager
 import com.topjohnwu.magisk.DynAPK
@@ -54,6 +55,7 @@ open class App() : Application() {
             impl = base
         }
         val wrapped = impl.wrap()
+        MultiDex.install(this)
         super.attachBaseContext(wrapped)
 
         val info = base.applicationInfo

@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-include(":app", ":app:shared", ":native")
+include(":app", ":app:shared")

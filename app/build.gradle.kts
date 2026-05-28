@@ -28,6 +28,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         versionName = Config.version
         versionCode = Config.versionCode
+        multiDexEnabled = true
         ndk {
             abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         }
@@ -146,6 +147,7 @@ android.applicationVariants.all {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation("androidx.multidex:multidex:2.0.1")
     implementation(kotlin("stdlib"))
     // Some dependencies request JDK 8 stdlib, specify manually here to prevent version mismatch
     implementation(kotlin("stdlib-jdk8"))

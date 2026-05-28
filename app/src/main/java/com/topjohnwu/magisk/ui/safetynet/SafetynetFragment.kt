@@ -22,9 +22,6 @@ class SafetynetFragment : BaseUIFragment<SafetynetViewModel, FragmentSafetynetMd
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        // Set barrier reference IDs in code, since resource IDs will be stripped in release mode
-        binding.snetBarrier.referencedIds = intArrayOf(R.id.basic_text, R.id.cts_text)
-
         return binding.root
     }
 

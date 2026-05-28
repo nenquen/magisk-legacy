@@ -27,207 +27,280 @@
         tools:paddingBottom="48dp"
         tools:paddingTop="24dp">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/l2">
 
             <TextView
-                invisibleUnless="@{viewModel.checking}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="YASNAC"
+                android:textAppearance="@style/AppearanceFoundation.Title"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/l1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Yet Another SafetyNet Attestation Checker"
+                android:textAppearance="@style/AppearanceFoundation.Body"
+                android:layout_marginBottom="@dimen/l3" />
+
+            <!-- Device Info Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/WidgetFoundation.Card.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/l1"
+                app:cardElevation="@dimen/l1"
+                android:layout_marginBottom="@dimen/l2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/l2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Device"
+                        android:textAppearance="@style/AppearanceFoundation.Title"
+                        android:layout_marginBottom="@dimen/l2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Model"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.deviceModel}"
+                        android:textAppearance="@style/AppearanceFoundation.Body"
+                        android:layout_marginBottom="@dimen/l1"
+                        tools:text="unknown (layoutlib)" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Android version"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.androidVersion}"
+                        android:textAppearance="@style/AppearanceFoundation.Body"
+                        android:layout_marginBottom="@dimen/l1"
+                        tools:text="12 (API 31)" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Security patch level"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.securityPatch}"
+                        android:textAppearance="@style/AppearanceFoundation.Body"
+                        tools:text="2021-11-05" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Loading Indicator -->
+            <TextView
+                app:goneUnless="@{viewModel.checking}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/safetynet_attest_loading"
-                android:textAppearance="@style/AppearanceFoundation.Title" />
+                android:textAppearance="@style/AppearanceFoundation.Title"
+                android:layout_margin="@dimen/l3" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                invisible="@{viewModel.checking}"
+            <!-- Result Card -->
+            <com.google.android.material.card.MaterialCardView
+                app:goneUnless="@{viewModel.hasResult &amp;&amp; !viewModel.checking}"
+                style="@style/WidgetFoundation.Card.Elevated"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="@dimen/l1"
-                android:paddingBottom="@dimen/l1">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/l1"
+                app:cardElevation="@dimen/l1"
+                android:layout_marginBottom="@dimen/l3">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/safetynet_attestation"
-                    style="@style/WidgetFoundation.Card.Elevated"
-                    cardBackgroundColorAttr="@{viewModel.success ? R.attr.colorPrimary : R.attr.colorError}"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/l1"
-                    android:layout_marginTop="@dimen/l2"
-                    android:layout_marginEnd="@dimen/l1"
-                    app:cardCornerRadius="@dimen/l1"
-                    app:cardElevation="@dimen/l1"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias=".35"
-                    app:layout_constraintWidth_max="300dp"
-                    tools:cardBackgroundColor="?colorPrimary">
+                    android:orientation="vertical"
+                    android:padding="@dimen/l2">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Result"
+                        android:textAppearance="@style/AppearanceFoundation.Title"
+                        android:layout_marginBottom="@dimen/l2" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Basic integrity"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/l1">
                         <TextView
-                            android:id="@+id/safetynet_title"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/l1"
-                            android:layout_marginTop="@dimen/l2"
-                            android:layout_marginEnd="@dimen/l1"
-                            android:gravity="center"
-                            android:text="@{viewModel.safetyNetTitle}"
-                            android:textAppearance="@style/AppearanceFoundation.Display.OnPrimary"
-                            android:textStyle="bold"
-                            app:textColorAttr="@{viewModel.textColorAttr}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_chainStyle="packed"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="@string/safetynet_attest_success" />
-
+                            android:text="@{viewModel.basicIntegrityState ? `Pass` : `Fail`}"
+                            app:textColorAttr="@{viewModel.basicIntegrityState ? R.attr.colorPrimary : R.attr.colorError}"
+                            android:textAppearance="@style/AppearanceFoundation.Body"
+                            tools:text="Pass" />
                         <ImageView
-                            android:id="@+id/safetynet_divider"
-                            android:layout_width="50dp"
-                            android:layout_height="4dp"
-                            android:layout_marginTop="@dimen/l2"
-                            app:srcCompat="@drawable/bg_divider_rounded_on_primary"
-                            app:tintAttr="@{viewModel.textColorAttr}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/safetynet_title"
-                            tools:tint="?colorOnPrimary"/>
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginStart="4dp"
+                            app:srcCompat="@{viewModel.basicIntegrityState ? @drawable/ic_check_circle_md2 : @drawable/ic_close_md2}"
+                            app:tintAttr="@{viewModel.basicIntegrityState ? R.attr.colorPrimary : R.attr.colorError}"
+                            tools:src="@drawable/ic_check_circle_md2"
+                            tools:tint="?colorPrimary" />
+                    </LinearLayout>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/checkbox_layout"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CTS profile match"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/l1">
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/l1"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/safetynet_divider">
+                            android:text="@{viewModel.ctsState ? `Pass` : `Fail`}"
+                            app:textColorAttr="@{viewModel.ctsState ? R.attr.colorPrimary : R.attr.colorError}"
+                            android:textAppearance="@style/AppearanceFoundation.Body"
+                            tools:text="Pass" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginStart="4dp"
+                            app:srcCompat="@{viewModel.ctsState ? @drawable/ic_check_circle_md2 : @drawable/ic_close_md2}"
+                            app:tintAttr="@{viewModel.ctsState ? R.attr.colorPrimary : R.attr.colorError}"
+                            tools:src="@drawable/ic_check_circle_md2"
+                            tools:tint="?colorPrimary" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/basic_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="start"
-                                android:text="basicIntegrity"
-                                android:textAppearance="@style/AppearanceFoundation.Body.OnPrimary"
-                                android:textStyle="bold"
-                                android:layout_marginTop="@dimen/l2"
-                                app:textColorAttr="@{viewModel.textColorAttr}"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="@id/snet_barrier"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Evaluation type"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
 
-                            <TextView
-                                android:id="@+id/cts_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="start"
-                                android:text="ctsProfile"
-                                android:textAppearance="@style/AppearanceFoundation.Body.OnPrimary"
-                                android:textStyle="bold"
-                                android:layout_marginTop="@dimen/l2"
-                                app:textColorAttr="@{viewModel.textColorAttr}"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="@id/snet_barrier"
-                                app:layout_constraintTop_toBottomOf="@id/basic_text"
-                                tools:ignore="HardcodedText" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.evalType}"
+                        android:textAppearance="@style/AppearanceFoundation.Body"
+                        android:layout_marginBottom="@dimen/l1"
+                        tools:text="HARDWARE_BACKED" />
 
-                            <androidx.constraintlayout.widget.Barrier
-                                android:id="@+id/snet_barrier"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:barrierDirection="end"
-                                app:constraint_referenced_ids="basic_text,cts_text"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Timestamp"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
 
-                            <ImageView
-                                style="@style/WidgetFoundation.Icon.OnPrimary"
-                                isSelected="@{viewModel.basicIntegrityState}"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_check_circle_md2"
-                                app:tintAttr="@{viewModel.textColorAttr}"
-                                app:layout_constraintStart_toEndOf="@id/snet_barrier"
-                                app:layout_constraintTop_toTopOf="@id/basic_text"
-                                app:layout_constraintBottom_toBottomOf="@id/basic_text"
-                                tools:tint="?colorOnPrimary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.timestampString}"
+                        android:textAppearance="@style/AppearanceFoundation.Body"
+                        android:layout_marginBottom="@dimen/l1"
+                        tools:text="1970-01-01 08:00:00" />
 
-                            <ImageView
-                                style="@style/WidgetFoundation.Icon.OnPrimary"
-                                isSelected="@{viewModel.ctsState}"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_check_circle_md2"
-                                app:tintAttr="@{viewModel.textColorAttr}"
-                                app:layout_constraintStart_toEndOf="@id/snet_barrier"
-                                app:layout_constraintTop_toTopOf="@id/cts_text"
-                                app:layout_constraintBottom_toBottomOf="@id/cts_text"
-                                tools:tint="?colorOnPrimary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apk digest"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.apkDigestString}"
+                        android:textAppearance="@style/AppearanceFoundation.Body"
+                        android:layout_marginBottom="@dimen/l2"
+                        tools:text="CFMi+R9OC..." />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/l2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/checkbox_layout">
+                    <Button
+                        style="@style/WidgetFoundation.Button.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View JSON"
+                        android:textAllCaps="false"
+                        android:textColor="?colorPrimary"
+                        app:icon="@drawable/ic_show_md2"
+                        app:iconTint="?colorPrimary" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="start"
-                                android:text="evalType"
-                                android:textAppearance="@style/AppearanceFoundation.Body.OnPrimary"
-                                android:textStyle="bold"
-                                app:textColorAttr="@{viewModel.textColorAttr}"
-                                tools:ignore="HardcodedText" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:textAppearance="@style/AppearanceFoundation.Body.OnPrimary"
-                                android:textStyle="bold"
-                                android:layout_marginStart="@dimen/l1"
-                                android:text="@{viewModel.evalType}"
-                                app:textColorAttr="@{viewModel.textColorAttr}"
-                                tools:text="HARDWARE"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                        </LinearLayout>
+            <!-- Buttons -->
+            <Button
+                style="@style/WidgetFoundation.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/l1"
+                android:onClick="@{() -> viewModel.reset()}"
+                android:enabled="@{!viewModel.checking}"
+                android:text="Run SafetyNet Attestation"
+                android:textAllCaps="false"
+                android:textColor="?colorPrimary"
+                app:icon="@drawable/ic_refresh_safetynet_md2"
+                app:iconTint="?colorPrimary" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                style="@style/WidgetFoundation.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/l2"
+                android:text="Learn more"
+                android:textAllCaps="false"
+                android:textColor="?colorPrimary"
+                app:icon="@drawable/ic_info"
+                app:iconTint="?colorPrimary" />
 
-                </com.google.android.material.card.MaterialCardView>
-
-                <Button
-                    style="@style/WidgetFoundation.Button.Text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/l1"
-                    android:layout_marginBottom="@dimen/l1"
-                    android:onClick="@{() -> viewModel.reset()}"
-                    android:text="@string/safetynet_attest_restart"
-                    android:textAllCaps="false"
-                    android:textColor="?colorOnSurfaceVariant"
-                    app:icon="@drawable/ic_refresh_safetynet_md2"
-                    app:iconTint="?colorOnSurfaceVariant"
-                    app:layout_constraintEnd_toEndOf="@+id/safetynet_attestation"
-                    app:layout_constraintTop_toBottomOf="@+id/safetynet_attestation" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </FrameLayout>
-
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

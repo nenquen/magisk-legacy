@@ -39,9 +39,7 @@ class HomeViewModel(
     val appTitleBarrierIds =
         intArrayOf(R.id.home_manager_icon, R.id.home_manager_title, R.id.home_manager_button)
 
-    @get:Bindable
-    var isNoticeVisible = Config.safetyNotice
-        set(value) = set(value, field, { field = it }, BR.noticeVisible)
+
 
     val stateMagisk = when {
         !Info.env.isActive -> MagiskState.NOT_INSTALLED
@@ -70,9 +68,6 @@ class HomeViewModel(
     var stateManagerProgress = 0
         set(value) = set(value, field, { field = it }, BR.stateManagerProgress)
 
-    @get:Bindable
-    val showSafetyNet get() = Info.hasGMS && isConnected.get()
-
     val itemBinding = itemBindingOf<IconLink> {
         it.bindExtra(BR.viewModel, this)
     }
@@ -81,7 +76,6 @@ class HomeViewModel(
 
     override fun refresh() = viewModelScope.launch {
         state = State.LOADING
-        notifyPropertyChanged(BR.showSafetyNet)
         Info.getRemote(svc)?.apply {
             state = State.LOADED
 
@@ -133,13 +127,7 @@ class HomeViewModel(
         }
     }
 
-    fun onSafetyNetPressed() =
-        HomeFragmentDirections.actionHomeFragmentToSafetynetFragment().navigate()
 
-    fun hideNotice() {
-        Config.safetyNotice = false
-        isNoticeVisible = false
-    }
 
     private suspend fun ensureEnv() {
         val invalidStates = listOf(

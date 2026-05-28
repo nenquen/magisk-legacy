@@ -20,7 +20,7 @@ import com.topjohnwu.magisk.core.utils.availableLocales
 import com.topjohnwu.magisk.core.utils.currentLocale
 import com.topjohnwu.magisk.databinding.DialogSettingsAppNameBinding
 import com.topjohnwu.magisk.databinding.DialogSettingsDownloadPathBinding
-import com.topjohnwu.magisk.databinding.DialogSettingsUpdateChannelBinding
+
 import com.topjohnwu.magisk.di.AppContext
 import com.topjohnwu.magisk.utils.Utils
 import com.topjohnwu.magisk.utils.asText
@@ -35,36 +35,7 @@ object Customization : BaseSettingsItem.Section() {
     override val title = R.string.settings_customization.asText()
 }
 
-object Language : BaseSettingsItem.Selector() {
-    override var value = -1
-        set(value) = setV(value, field, { field = it }) {
-            Config.locale = entryValues[it]
-        }
 
-    override val title = R.string.language.asText()
-
-    private var entries = emptyArray<String>()
-    private var entryValues = emptyArray<String>()
-
-    override fun entries(res: Resources) = entries
-    override fun descriptions(res: Resources) = entries
-
-    override fun onPressed(view: View, callback: Callback) {
-        if (entries.isEmpty()) return
-        super.onPressed(view, callback)
-    }
-
-    suspend fun loadLanguages(scope: CoroutineScope) {
-        scope.launch {
-            availableLocales().let { (names, values) ->
-                entries = names
-                entryValues = values
-                val selectedLocale = currentLocale.getDisplayName(currentLocale)
-                value = names.indexOfFirst { it == selectedLocale }.let { if (it == -1) 0 else it }
-            }
-        }
-    }
-}
 
 object Theme : BaseSettingsItem.Blank() {
     override val icon = R.drawable.ic_paint
@@ -146,66 +117,11 @@ object DownloadPath : BaseSettingsItem.Input() {
         .inflate(LayoutInflater.from(context)).also { it.data = this }.root
 }
 
-object UpdateChannel : BaseSettingsItem.Selector() {
-    override var value = Config.updateChannel.let { if (it < 0) 0 else it }
-        set(value) = setV(value, field, { field = it }) {
-            Config.updateChannel = it
-            Info.remote = Info.EMPTY_REMOTE
-        }
 
-    override val title = R.string.settings_update_channel_title.asText()
 
-    override val entryRes = R.array.update_channel
-    override fun entries(res: Resources): Array<String> {
-        return super.entries(res).let {
-            if (!BuildConfig.DEBUG)
-                it.copyOfRange(0, Config.Value.CANARY_CHANNEL)
-            else it
-        }
-    }
-}
 
-object UpdateChannelUrl : BaseSettingsItem.Input() {
-    override val title = R.string.settings_update_custom.asText()
-    override var value = Config.customChannelUrl
-        set(value) = setV(value, field, { field = it }) {
-            Config.customChannelUrl = it
-            Info.remote = Info.EMPTY_REMOTE
-        }
-    override val description get() = value.asText()
 
-    override val inputResult get() = result
 
-    @get:Bindable
-    var result = value
-        set(value) = set(value, field, { field = it }, BR.result)
-
-    override fun refresh() {
-        isEnabled = UpdateChannel.value == Config.Value.CUSTOM_CHANNEL
-    }
-
-    override fun getView(context: Context) = DialogSettingsUpdateChannelBinding
-        .inflate(LayoutInflater.from(context)).also { it.data = this }.root
-}
-
-object UpdateChecker : BaseSettingsItem.Toggle() {
-    override val title = R.string.settings_check_update_title.asText()
-    override val description = R.string.settings_check_update_summary.asText()
-    override var value = Config.checkUpdate
-        set(value) = setV(value, field, { field = it }) {
-            Config.checkUpdate = it
-            UpdateCheckService.schedule(AppContext)
-        }
-}
-
-object DoHToggle : BaseSettingsItem.Toggle() {
-    override val title = R.string.settings_doh_title.asText()
-    override val description = R.string.settings_doh_description.asText()
-    override var value = Config.doh
-        set(value) = setV(value, field, { field = it }) {
-            Config.doh = it
-        }
-}
 
 // check whether is module already installed beforehand?
 object SystemlessHosts : BaseSettingsItem.Blank() {

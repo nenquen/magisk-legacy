@@ -35,9 +35,6 @@ class SettingsViewModel(
     val items = diffListOf(createItems())
 
     init {
-        viewModelScope.launch {
-            Language.loadLanguages(this)
-        }
     }
 
     private fun createItems(): List<BaseSettingsItem> {
@@ -47,7 +44,7 @@ class SettingsViewModel(
         // Customization
         val list = mutableListOf(
             Customization,
-            Theme, Language
+            Theme
         )
         if (isRunningAsStub && ShortcutManagerCompat.isRequestPinShortcutSupported(context))
             list.add(AddShortcut)
@@ -55,7 +52,7 @@ class SettingsViewModel(
         // Manager
         list.addAll(listOf(
             AppSettings,
-            UpdateChannel, UpdateChannelUrl, DoHToggle, UpdateChecker, DownloadPath
+            DownloadPath
         ))
         if (Info.env.isActive) {
             list.add(ClearRepoCache)
@@ -108,19 +105,14 @@ class SettingsViewModel(
 
     override fun onItemChanged(view: View, item: BaseSettingsItem) {
         when (item) {
-            is Language -> RecreateEvent().publish()
-            is UpdateChannel -> openUrlIfNecessary(view)
+
+
             is Hide -> viewModelScope.launch { HideAPK.hide(view.activity, item.value) }
             else -> Unit
         }
     }
 
-    private fun openUrlIfNecessary(view: View) {
-        UpdateChannelUrl.refresh()
-        if (UpdateChannelUrl.isEnabled && UpdateChannelUrl.value.isBlank()) {
-            UpdateChannelUrl.onPressed(view, this)
-        }
-    }
+
 
     private fun authenticate(callback: () -> Unit) {
         BiometricEvent {

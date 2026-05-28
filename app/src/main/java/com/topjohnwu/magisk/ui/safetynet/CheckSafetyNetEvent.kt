@@ -218,7 +218,9 @@ data class SafetyNetResponse(
     val nonce: String,
     val ctsProfileMatch: Boolean,
     val basicIntegrity: Boolean,
-    val evaluationType: String = ""
+    val evaluationType: String = "",
+    val timestampMs: Long = 0L,
+    val apkCertificateDigestSha256: List<String> = emptyList()
 )
 
 // Special instance to indicate invalid SafetyNet response

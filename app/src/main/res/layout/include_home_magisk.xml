@@ -42,7 +42,7 @@
                 android:id="@+id/home_magisk_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/l1"
+                android:layout_marginStart="@dimen/l_50"
                 android:text="@string/magisk"
                 android:textAppearance="@style/AppearanceFoundation.Title"
                 android:textColor="?colorPrimary"

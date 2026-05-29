@@ -33,7 +33,7 @@
             <ImageView
                 android:id="@+id/home_manager_icon"
                 style="@style/WidgetFoundation.Icon.Primary"
-                android:padding="@dimen/l_50"
+                android:padding="@dimen/l_25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_manager" />
@@ -42,7 +42,7 @@
                 android:id="@+id/home_manager_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/l1"
+                android:layout_marginStart="@dimen/l_50"
                 android:text="@string/home_app_title"
                 android:textAppearance="@style/AppearanceFoundation.Title"
                 android:textColor="?colorPrimary"

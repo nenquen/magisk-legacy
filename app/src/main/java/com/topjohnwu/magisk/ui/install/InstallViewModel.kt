@@ -8,9 +8,7 @@ import com.topjohnwu.magisk.BR
 import com.topjohnwu.magisk.BuildConfig
 import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.arch.BaseViewModel
-import com.topjohnwu.magisk.core.Const
 import com.topjohnwu.magisk.core.Info
-import com.topjohnwu.magisk.data.repository.NetworkService
 import com.topjohnwu.magisk.di.AppContext
 import com.topjohnwu.magisk.events.MagiskInstallFileEvent
 import com.topjohnwu.magisk.events.dialog.SecondSlotWarningDialog
@@ -22,9 +20,7 @@ import timber.log.Timber
 import java.io.File
 import java.io.IOException
 
-class InstallViewModel(
-    svc: NetworkService
-) : BaseViewModel() {
+class InstallViewModel() : BaseViewModel() {
 
     val isRooted = Shell.rootAccess()
     val skipOptions = Info.isEmulator || (Info.ramdisk && !Info.isFDE && Info.isSAR)
@@ -62,23 +58,7 @@ class InstallViewModel(
         set(value) = set(value, field, { field = it }, BR.notes)
 
     init {
-        viewModelScope.launch {
-            try {
-                File(AppContext.cacheDir, "${BuildConfig.VERSION_CODE}.md").run {
-                    notes = when {
-                        exists() -> readText()
-                        Const.Url.CHANGELOG_URL.isEmpty() -> ""
-                        else -> {
-                            val text = svc.fetchString(Const.Url.CHANGELOG_URL)
-                            writeText(text)
-                            text
-                        }
-                    }
-                }
-            } catch (e: IOException) {
-                Timber.e(e)
-            }
-        }
+        notes = ""
     }
 
     fun step(nextStep: Int) {

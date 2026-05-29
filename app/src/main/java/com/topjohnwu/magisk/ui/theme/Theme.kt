@@ -12,10 +12,6 @@ enum class Theme(
         themeName = "Piplup",
         themeRes = R.style.ThemeFoundationMD2_Piplup
     ),
-    PiplupAmoled(
-        themeName = "AMOLED",
-        themeRes = R.style.ThemeFoundationMD2_Amoled
-    ),
     Rayquaza(
         themeName = "Rayquaza",
         themeRes = R.style.ThemeFoundationMD2_Rayquaza
@@ -35,10 +31,6 @@ enum class Theme(
     Salamence(
         themeName = "Salamence",
         themeRes = R.style.ThemeFoundationMD2_Salamence
-    ),
-    Fraxure(
-        themeName = "Fraxure (Legacy)",
-        themeRes = R.style.ThemeFoundationMD2_Fraxure
     );
 
     val isSelected get() = Config.themeOrdinal == ordinal

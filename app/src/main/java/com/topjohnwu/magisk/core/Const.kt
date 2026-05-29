@@ -44,17 +44,16 @@ object Const {
     }
 
     object Url {
-        const val PATREON_URL = "https://www.patreon.com/topjohnwu"
-        const val SOURCE_CODE_URL = "https://github.com/topjohnwu/Magisk"
+        const val PATREON_URL = ""
+        const val SOURCE_CODE_URL = ""
 
-        val CHANGELOG_URL = if (BuildConfig.VERSION_CODE % 100 != 0) Info.remote.magisk.note
-        else "https://topjohnwu.github.io/Magisk/releases/${BuildConfig.VERSION_CODE}.md"
+        val CHANGELOG_URL = ""
 
-        const val GITHUB_RAW_URL = "https://raw.githubusercontent.com/"
-        const val GITHUB_API_URL = "https://api.github.com/"
-        const val GITHUB_PAGE_URL = "https://topjohnwu.github.io/magisk-files/"
-        const val JS_DELIVR_URL = "https://cdn.jsdelivr.net/gh/"
-        const val OFFICIAL_REPO = "https://magisk-modules-repo.github.io/submission/modules.json"
+        const val GITHUB_RAW_URL = ""
+        const val GITHUB_API_URL = ""
+        const val GITHUB_PAGE_URL = ""
+        const val JS_DELIVR_URL = ""
+        const val OFFICIAL_REPO = ""
     }
 
     object Key {

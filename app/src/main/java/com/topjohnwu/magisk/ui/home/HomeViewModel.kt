@@ -9,7 +9,6 @@ import com.topjohnwu.magisk.core.Config
 import com.topjohnwu.magisk.core.Info
 import com.topjohnwu.magisk.core.download.Subject
 import com.topjohnwu.magisk.core.download.Subject.Manager
-import com.topjohnwu.magisk.data.repository.NetworkService
 import com.topjohnwu.magisk.events.OpenInappLinkEvent
 import com.topjohnwu.magisk.events.SnackbarEvent
 import com.topjohnwu.magisk.events.dialog.EnvFixDialog
@@ -28,9 +27,7 @@ enum class MagiskState {
     NOT_INSTALLED, UP_TO_DATE, OBSOLETE, LOADING
 }
 
-class HomeViewModel(
-    private val svc: NetworkService
-) : BaseViewModel() {
+class HomeViewModel() : BaseViewModel() {
 
     val magiskTitleBarrierIds =
         intArrayOf(R.id.home_magisk_icon, R.id.home_magisk_title, R.id.home_magisk_button)
@@ -75,25 +72,11 @@ class HomeViewModel(
     private var shownDialog = false
 
     override fun refresh() = viewModelScope.launch {
-        state = State.LOADING
-        Info.getRemote(svc)?.apply {
-            state = State.LOADED
-
-            stateManager = when {
-                BuildConfig.VERSION_CODE < magisk.versionCode -> MagiskState.OBSOLETE
-                else -> MagiskState.UP_TO_DATE
-            }
-
-            managerRemoteVersion =
-                "${magisk.version} (${magisk.versionCode})".asText()
-
-            launch {
-                ensureEnv()
-            }
-        } ?: {
-            state = State.LOADING_FAILED
-            managerRemoteVersion = R.string.not_available.asText()
-        }()
+        state = State.LOADED
+        managerRemoteVersion = R.string.not_available.asText()
+        launch {
+            ensureEnv()
+        }
     }
 
     val showTest = false

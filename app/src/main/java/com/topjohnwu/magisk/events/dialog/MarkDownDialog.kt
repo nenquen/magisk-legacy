@@ -6,7 +6,6 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.lifecycleScope
 import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.core.base.BaseActivity
-import com.topjohnwu.magisk.di.ServiceLocator
 import com.topjohnwu.magisk.view.MagiskDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,15 +24,8 @@ abstract class MarkDownDialog : DialogEvent() {
             applyView(view)
             (ownerActivity as BaseActivity).lifecycleScope.launch {
                 val tv = view.findViewById<TextView>(R.id.md_txt)
-                withContext(Dispatchers.IO) {
-                    try {
-                        ServiceLocator.markwon.setMarkdown(tv, getMarkdownText())
-                    } catch (e: Exception) {
-                        if (e is CancellationException)
-                            throw e
-                        Timber.e(e)
-                        tv.post { tv.setText(R.string.download_file_error) }
-                    }
+                withContext(Dispatchers.Main) {
+                    tv.text = getMarkdownText()
                 }
             }
         }

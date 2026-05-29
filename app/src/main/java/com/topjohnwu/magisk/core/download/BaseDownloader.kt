@@ -9,7 +9,6 @@ import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.core.ForegroundTracker
 import com.topjohnwu.magisk.core.base.BaseService
 import com.topjohnwu.magisk.core.utils.ProgressInputStream
-import com.topjohnwu.magisk.di.ServiceLocator
 import com.topjohnwu.magisk.view.Notifications
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,8 +27,6 @@ abstract class BaseDownloader : BaseService() {
     private val hasNotifications get() = notifications.isNotEmpty()
     private val notifications = Collections.synchronizedMap(HashMap<Int, Notification.Builder>())
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
-    val service get() = ServiceLocator.networkService
 
     // -- Service overrides
 
@@ -64,15 +61,8 @@ abstract class BaseDownloader : BaseService() {
     // -- Download logic
 
     private suspend fun Subject.startDownload() {
-        val stream = service.fetchFile(url).toProgressStream(this)
-        when (this) {
-            is Subject.Module ->  // Download and process on-the-fly
-                stream.toModule(file, service.fetchInstaller().byteStream())
-            is Subject.Manager -> handleAPK(this, stream)
-        }
-        val newId = notifyFinish(this)
-        if (ForegroundTracker.hasForeground)
-            onFinish(this, newId)
+        // Network removed — downloads disabled
+        notifyFail(this)
         if (!hasNotifications)
             stopSelf()
     }

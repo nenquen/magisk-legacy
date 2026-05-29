@@ -10,7 +10,6 @@ import com.topjohnwu.magisk.core.Config
 import com.topjohnwu.magisk.core.Info
 import com.topjohnwu.magisk.core.download.Subject
 import com.topjohnwu.magisk.core.model.module.LocalModule
-import com.topjohnwu.magisk.core.tasks.RepoUpdater
 import com.topjohnwu.magisk.data.database.RepoDao
 import com.topjohnwu.magisk.databinding.RvItem
 import com.topjohnwu.magisk.events.OpenReadmeEvent
@@ -43,8 +42,7 @@ import kotlin.math.roundToInt
 * */
 
 class ModuleViewModel(
-    private val repoDB: RepoDao,
-    private val repoUpdater: RepoUpdater
+    private val repoDB: RepoDao
 ) : BaseViewModel(), Queryable {
 
     override val queryDelay = 1000L
@@ -216,7 +214,6 @@ class ModuleViewModel(
 
             isRemoteLoading = true
             val repos = if (itemsOnline.isEmpty()) {
-                repoUpdater.run(refetch)
                 loadUpdatable()
                 loadRemoteDB(0)
             } else {

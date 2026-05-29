@@ -48,7 +48,6 @@ abstract class MagiskInstallImpl protected constructor(
     private lateinit var srcBoot: File
 
     private val shell = Shell.getShell()
-    private val service get() = ServiceLocator.networkService
     protected val context get() = ServiceLocator.deContext
     private val useRootDir = shell.isRoot && Info.noDataExec
 
@@ -377,16 +376,6 @@ abstract class MagiskInstallImpl protected constructor(
     private fun flashBoot() = "direct_install $installDir $srcBoot".sh().isSuccess
 
     private suspend fun postOTA(): Boolean {
-        try {
-            val bootctl = File.createTempFile("bootctl", null, context.cacheDir)
-            service.fetchBootctl().byteStream().writeTo(bootctl)
-            "post_ota $bootctl".sh()
-        } catch (e: IOException) {
-            console.add("! Unable to download bootctl")
-            Timber.e(e)
-            return false
-        }
-
         console.add("***************************************")
         console.add(" Next reboot will boot to second slot!")
         console.add("***************************************")

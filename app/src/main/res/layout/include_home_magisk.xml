@@ -68,8 +68,7 @@
                     android:onClick="@{() -> viewModel.onMagiskPressed()}"
                     android:text="@string/install"
                     android:textAllCaps="false"
-                    android:layout_gravity="end"
-                    app:icon="@drawable/ic_install" />
+                    android:layout_gravity="end" />
 
             </FrameLayout>
 

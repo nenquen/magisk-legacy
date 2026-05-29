@@ -58,9 +58,7 @@ fun setInvisibleUnless(view: View, invisibleUnless: Boolean) {
 
 @BindingAdapter("markdownText")
 fun setMarkdownText(tv: TextView, text: CharSequence) {
-    tv.coroutineScope.launch(Dispatchers.IO) {
-        ServiceLocator.markwon.setMarkdown(tv, text.toString())
-    }
+    tv.text = text
 }
 
 @BindingAdapter("onNavigationClick")

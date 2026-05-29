@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.topjohnwu.magisk.core.model.ModuleJson
-import com.topjohnwu.magisk.di.ServiceLocator
 import com.topjohnwu.magisk.ktx.legalFilename
 import kotlinx.parcelize.Parcelize
 import java.text.DateFormat
@@ -25,8 +24,6 @@ data class OnlineModule(
     val notes_url: String
 ) : Module(), Parcelable {
 
-    private val svc get() = ServiceLocator.networkService
-
     constructor(info: ModuleJson) : this(
         id = info.id,
         last_update = info.last_update,
@@ -39,18 +36,10 @@ data class OnlineModule(
     val lastUpdateString get() = DATE_FORMAT.format(lastUpdate)
     val downloadFilename get() = "$name-$version($versionCode).zip".legalFilename()
 
-    suspend fun notes() = svc.fetchString(notes_url)
+    suspend fun notes() = ""
 
     @Throws(IllegalRepoException::class)
     suspend fun load() {
-        try {
-            val rawProps = svc.fetchString(prop_url)
-            val props = rawProps.split("\\n".toRegex()).dropLastWhile { it.isEmpty() }
-            parseProps(props)
-        } catch (e: Exception) {
-            throw IllegalRepoException("Repo [$id] parse error:", e)
-        }
-
         if (versionCode < 0) {
             throw IllegalRepoException("Repo [$id] does not contain versionCode")
         }

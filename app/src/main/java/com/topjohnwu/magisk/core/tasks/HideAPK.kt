@@ -40,7 +40,6 @@ object HideAPK {
     // Some arbitrary limit
     const val MAX_LABEL_LENGTH = 32
 
-    private val svc get() = ServiceLocator.networkService
     private val Context.APK_URI get() = Provider.APK_URI(packageName)
     private val Context.PREFS_URI get() = Provider.PREFS_URI(packageName)
 
@@ -125,12 +124,8 @@ object HideAPK {
 
     private suspend fun patchAndHide(activity: Activity, label: String): Boolean {
         val stub = File(activity.cacheDir, "stub.apk")
-        try {
-            svc.fetchFile(Info.remote.stub.link).byteStream().writeTo(stub)
-        } catch (e: IOException) {
-            Timber.e(e)
-            return false
-        }
+        // Network removed — stub download skipped
+        if (!stub.exists()) return false
 
         // Generate a new random package name and signature
         val repack = File(activity.cacheDir, "patched.apk")

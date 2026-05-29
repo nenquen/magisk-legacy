@@ -67,14 +67,6 @@
         <item name="colorDisabledVariant">#66AEAEB2</item>
     </style>
 
-    <style name="ThemeFoundationMD2.Amoled" parent="ThemeFoundationMD2.Piplup">
-        <item name="colorSurface">#FFF</item>
-        <item name="colorOnPrimary">#FFF</item>
-        <item name="colorOnSecondary">#FFF</item>
-        <item name="colorOnBackground">#FFF</item>
-        <item name="colorOnError">#FFF</item>
-    </style>
-
     <style name="ThemeFoundationMD2.Rayquaza" parent="ThemeFoundationMD2.Piplup">
         <item name="colorPrimary">#68A17F</item>
         <item name="colorPrimaryVariant">#8068A17F</item>
@@ -122,13 +114,6 @@
         <item name="colorSecondaryVariant">#80C06A75</item>
         <item name="colorOnPrimary">#000000</item>
         <item name="colorOnPrimaryVariant">#D9222222</item>
-    </style>
-
-    <style name="ThemeFoundationMD2.Fraxure" parent="ThemeFoundationMD2.Amoled">
-        <item name="colorPrimary">#009688</item>
-        <item name="colorPrimaryVariant">#8000796B</item>
-        <item name="colorSecondary">?colorError</item>
-        <item name="colorSecondaryVariant">#806D1111</item>
     </style>
 
     <!--3rd party themes-->

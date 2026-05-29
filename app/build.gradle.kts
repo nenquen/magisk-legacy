@@ -24,7 +24,7 @@ kapt {
 
 android {
     defaultConfig {
-        applicationId = "com.topjohnwu.magisk"
+        applicationId = "com.magisk.legacy"
         vectorDrawables.useSupportLibrary = true
         versionName = Config.version
         versionCode = Config.versionCode

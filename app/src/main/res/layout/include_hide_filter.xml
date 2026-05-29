@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.R" />
+        <import type="com.regisk.legacy.R" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.hide.HideViewModel" />
+            type="com.regisk.legacy.ui.hide.HideViewModel" />
 
     </data>
 

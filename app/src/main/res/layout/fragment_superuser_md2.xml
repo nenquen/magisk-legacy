@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.core.Config" />
+        <import type="com.regisk.legacy.core.Config" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.superuser.SuperuserViewModel" />
+            type="com.regisk.legacy.ui.superuser.SuperuserViewModel" />
 
     </data>
 

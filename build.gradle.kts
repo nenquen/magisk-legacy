@@ -1,8 +1,8 @@
 import com.android.build.gradle.BaseExtension
-import com.topjohnwu.magisk.build.Config
+import com.regisk.legacy.build.Config
 
 plugins {
-    id("MagiskPlugin")
+    id("RegiskPlugin")
     kotlin("android") version "1.7.20" apply false
     kotlin("kapt") version "1.7.20" apply false
 }

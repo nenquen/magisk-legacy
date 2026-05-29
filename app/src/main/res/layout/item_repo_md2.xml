@@ -5,15 +5,15 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.R" />
+        <import type="com.regisk.legacy.R" />
 
         <variable
             name="item"
-            type="com.topjohnwu.magisk.ui.module.RepoItem" />
+            type="com.regisk.legacy.ui.module.RepoItem" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.module.ModuleViewModel" />
+            type="com.regisk.legacy.ui.module.ModuleViewModel" />
 
     </data>
 

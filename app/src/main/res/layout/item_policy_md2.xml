@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.topjohnwu.magisk.ui.superuser.PolicyRvItem" />
+            type="com.regisk.legacy.ui.superuser.PolicyRvItem" />
 
     </data>
 
@@ -61,7 +61,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/policy_indicator"
                         app:layout_constraintStart_toEndOf="@+id/policy_app_icon"
                         app:layout_constraintTop_toTopOf="@+id/policy_app_icon"
-                        tools:text="@string/magisk" />
+                        tools:text="@string/regisk" />
 
                     <TextView
                         android:id="@+id/policy_package_name"
@@ -80,7 +80,7 @@
                         app:layout_constraintStart_toStartOf="@id/policy_app_name"
                         app:layout_constraintTop_toBottomOf="@id/policy_app_name"
                         app:layout_constraintVertical_bias="0"
-                        tools:text="com.topjohnwu.magisk" />
+                        tools:text="com.regisk.legacy" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/policy_indicator"

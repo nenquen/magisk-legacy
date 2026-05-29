@@ -5,17 +5,17 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.R" />
+        <import type="com.regisk.legacy.R" />
 
-        <import type="com.topjohnwu.magisk.core.Config" />
+        <import type="com.regisk.legacy.core.Config" />
 
         <variable
             name="item"
-            type="com.topjohnwu.magisk.ui.module.ModuleItem" />
+            type="com.regisk.legacy.ui.module.ModuleItem" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.module.ModuleViewModel" />
+            type="com.regisk.legacy.ui.module.ModuleViewModel" />
 
     </data>
 

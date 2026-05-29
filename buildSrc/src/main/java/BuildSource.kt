@@ -1,4 +1,4 @@
-package com.topjohnwu.magisk.build
+package com.regisk.legacy.build
 
 import org.eclipse.jgit.internal.storage.file.FileRepository
 import org.gradle.api.Plugin
@@ -19,11 +19,11 @@ object Config {
     fun contains(key: String) = get(key) != null
 
     val version: String get() = get("version") ?: commitHash
-    val versionCode: Int get() = get("magisk.versionCode")?.toInt() ?: 0
-    val stubVersion: String get() = get("magisk.stubVersion") ?: ""
+    val versionCode: Int get() = get("regisk.versionCode")?.toInt() ?: 0
+    val stubVersion: String get() = get("regisk.stubVersion") ?: ""
 }
 
-class MagiskPlugin : Plugin<Project> {
+class RegiskPlugin : Plugin<Project> {
     override fun apply(project: Project) = project.applyPlugin()
 
     private fun Project.applyPlugin() {

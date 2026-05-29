@@ -5,13 +5,13 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.core.Info" />
+        <import type="com.regisk.legacy.core.Info" />
 
-        <import type="com.topjohnwu.magisk.ui.home.MagiskState" />
+        <import type="com.regisk.legacy.ui.home.RegiskState" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.home.HomeViewModel" />
+            type="com.regisk.legacy.ui.home.HomeViewModel" />
 
     </data>
 
@@ -64,7 +64,7 @@
 
                 <Button
                     style="@style/WidgetFoundation.Button"
-                    gone="@{viewModel.stateManager != MagiskState.OBSOLETE}"
+                    gone="@{viewModel.stateManager != RegiskState.OBSOLETE}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.onManagerPressed()}"
@@ -75,7 +75,7 @@
 
                 <Button
                     style="@style/WidgetFoundation.Button.Text"
-                    gone="@{viewModel.stateManager != MagiskState.UP_TO_DATE}"
+                    gone="@{viewModel.stateManager != RegiskState.UP_TO_DATE}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -141,7 +141,7 @@
                                 android:id="@+id/home_manager_extra_connection_value"
                                 style="@style/W.Home.ItemContent.Right"
                                 android:text="@{context.packageName}"
-                                tools:text="com.topjohnwu.magisk" />
+                                tools:text="com.regisk.legacy" />
 
                         </LinearLayout>
 

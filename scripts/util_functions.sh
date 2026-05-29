@@ -1,5 +1,5 @@
 ############################################
-# Magisk General Utility Functions
+# Regisk General Utility Functions
 ############################################
 
 #MAGISK_VERSION_STUB
@@ -445,7 +445,7 @@ flash_image() {
 }
 
 # Common installation script for flash_script.sh and addon.d.sh
-install_magisk() {
+install_regisk() {
   cd $MAGISKBIN
 
   if [ ! -c $BOOTIMAGE ]; then
@@ -540,7 +540,7 @@ check_data() {
     touch /data/.rw && rm /data/.rw && DATA=true
     # Test if data is decrypted
     $DATA && [ -d /data/adb ] && touch /data/adb/.rw && rm /data/adb/.rw && DATA_DE=true
-    $DATA_DE && [ -d /data/adb/magisk ] || mkdir /data/adb/magisk || DATA_DE=false
+    $DATA_DE && [ -d /data/adb/regisk ] || mkdir /data/adb/regisk || DATA_DE=false
   fi
   NVBASE=/data
   $DATA || NVBASE=/cache/data_adb
@@ -548,27 +548,27 @@ check_data() {
   resolve_vars
 }
 
-find_magisk_apk() {
+find_regisk_apk() {
   local DBAPK
-  [ -z $APK ] && APK=/data/adb/magisk.apk
-  [ -f $APK ] || APK=/data/magisk/magisk.apk
-  [ -f $APK ] || APK=/data/app/com.topjohnwu.magisk*/*.apk
-  [ -f $APK ] || APK=/data/app/*/com.topjohnwu.magisk*/*.apk
+  [ -z $APK ] && APK=/data/adb/regisk.apk
+  [ -f $APK ] || APK=/data/regisk/regisk.apk
+  [ -f $APK ] || APK=/data/app/com.regisk.legacy*/*.apk
+  [ -f $APK ] || APK=/data/app/*/com.regisk.legacy*/*.apk
   if [ ! -f $APK ]; then
     DBAPK=$(magisk --sqlite "SELECT value FROM strings WHERE key='requester'" 2>/dev/null | cut -d= -f2)
-    [ -z $DBAPK ] && DBAPK=$(strings /data/adb/magisk.db | grep -oE 'requester..*' | cut -c10-)
+    [ -z $DBAPK ] && DBAPK=$(strings /data/adb/regisk.db | grep -oE 'requester..*' | cut -c10-)
     [ -z $DBAPK ] || APK=/data/user_de/*/$DBAPK/dyn/*.apk
     [ -f $APK ] || [ -z $DBAPK ] || APK=/data/app/$DBAPK*/*.apk
     [ -f $APK ] || [ -z $DBAPK ] || APK=/data/app/*/$DBAPK*/*.apk
   fi
-  [ -f $APK ] || ui_print "! Unable to detect Magisk app APK for BootSigner"
+  [ -f $APK ] || ui_print "! Unable to detect Regisk app APK for BootSigner"
 }
 
 run_migrations() {
   local LOCSHA1
   local TARGET
   # Legacy app installation
-  local BACKUP=/data/adb/magisk/stock_boot*.gz
+  local BACKUP=/data/adb/regisk/stock_boot*.gz
   if [ -f $BACKUP ]; then
     cp $BACKUP /data
     rm -f $BACKUP
@@ -579,20 +579,20 @@ run_migrations() {
     [ -f $gz ] || break
     LOCSHA1=`basename $gz | sed -e 's/stock_boot_//' -e 's/.img.gz//'`
     [ -z $LOCSHA1 ] && break
-    mkdir /data/magisk_backup_${LOCSHA1} 2>/dev/null
-    mv $gz /data/magisk_backup_${LOCSHA1}/boot.img.gz
+    mkdir /data/regisk_backup_${LOCSHA1} 2>/dev/null
+    mv $gz /data/regisk_backup_${LOCSHA1}/boot.img.gz
   done
 
   # Stock backups
   LOCSHA1=$SHA1
   for name in boot dtb dtbo dtbs; do
-    BACKUP=/data/adb/magisk/stock_${name}.img
+    BACKUP=/data/adb/regisk/stock_${name}.img
     [ -f $BACKUP ] || continue
     if [ $name = 'boot' ]; then
       LOCSHA1=`$MAGISKBIN/magiskboot sha1 $BACKUP`
-      mkdir /data/magisk_backup_${LOCSHA1} 2>/dev/null
+      mkdir /data/regisk_backup_${LOCSHA1} 2>/dev/null
     fi
-    TARGET=/data/magisk_backup_${LOCSHA1}/${name}.img
+    TARGET=/data/regisk_backup_${LOCSHA1}/${name}.img
     cp $BACKUP $TARGET
     rm -f $BACKUP
     gzip -9f $TARGET
@@ -601,24 +601,24 @@ run_migrations() {
 
 copy_sepolicy_rules() {
   # Remove all existing rule folders
-  rm -rf /data/unencrypted/magisk /cache/magisk /metadata/magisk /persist/magisk /mnt/vendor/persist/magisk
+  rm -rf /data/unencrypted/regisk /cache/regisk /metadata/regisk /persist/regisk /mnt/vendor/persist/regisk
 
   # Find current active RULESDIR
   local RULESDIR
-  local active_dir=$(magisk --path)/.magisk/mirror/sepolicy.rules
+  local active_dir=$(magisk --path)/.regisk/mirror/sepolicy.rules
   if [ -L $active_dir ]; then
     RULESDIR=$(readlink $active_dir)
-    [ "${RULESDIR:0:1}" != "/" ] && RULESDIR="$(magisk --path)/.magisk/mirror/$RULESDIR"
+    [ "${RULESDIR:0:1}" != "/" ] && RULESDIR="$(magisk --path)/.regisk/mirror/$RULESDIR"
   elif [ -d /data/unencrypted ] && ! grep ' /data ' /proc/mounts | grep -qE 'dm-|f2fs'; then
-    RULESDIR=/data/unencrypted/magisk
+    RULESDIR=/data/unencrypted/regisk
   elif grep -q ' /cache ' /proc/mounts; then
-    RULESDIR=/cache/magisk
+    RULESDIR=/cache/regisk
   elif grep -q ' /metadata ' /proc/mounts; then
-    RULESDIR=/metadata/magisk
+    RULESDIR=/metadata/regisk
   elif grep -q ' /persist ' /proc/mounts; then
-    RULESDIR=/persist/magisk
+    RULESDIR=/persist/regisk
   elif grep -q ' /mnt/vendor/persist ' /proc/mounts; then
-    RULESDIR=/mnt/vendor/persist/magisk
+    RULESDIR=/mnt/vendor/persist/regisk
   else
     return
   fi
@@ -732,7 +732,7 @@ install_module() {
     set_permissions
   else
     print_title "$MODNAME" "by $MODAUTH"
-    print_title "Powered by Magisk"
+    print_title "Powered by Regisk"
 
     unzip -o "$ZIPFILE" customize.sh -d $MODPATH >&2
 
@@ -755,7 +755,7 @@ install_module() {
   done
 
   if $BOOTMODE; then
-    # Update info for Magisk app
+    # Update info for Regisk app
     mktouch $NVBASE/modules/$MODID/update
     cp -af $MODPATH/module.prop $NVBASE/modules/$MODID/module.prop
   fi

@@ -1,6 +1,6 @@
 import org.apache.tools.ant.filters.FixCrLfFilter
 import java.io.PrintStream
-import com.topjohnwu.magisk.build.Config
+import com.regisk.legacy.build.Config
 
 plugins {
     id("com.android.application")
@@ -24,7 +24,7 @@ kapt {
 
 android {
     defaultConfig {
-        applicationId = "com.magisk.legacy"
+        applicationId = "com.regisk.legacy"
         vectorDrawables.useSupportLibrary = true
         versionName = Config.version
         versionCode = Config.versionCode
@@ -89,9 +89,9 @@ val syncAssets by tasks.registering(Sync::class) {
     }
     filesMatching("**/util_functions.sh") {
         filter {
-            it.replace("#MAGISK_VERSION_STUB",
-                "MAGISK_VER='${Config.version}'\n" +
-                "MAGISK_VER_CODE=${Config.versionCode}")
+            it.replace("#REGISK_VERSION_STUB",
+                "REGISK_VER='${Config.version}'\n" +
+                "REGISK_VER_CODE=${Config.versionCode}")
         }
         filter<FixCrLfFilter>("eol" to FixCrLfFilter.CrLf.newInstance("lf"))
     }

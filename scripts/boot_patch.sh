@@ -1,6 +1,6 @@
 #!/system/bin/sh
 #######################################################################################
-# Magisk Boot Image Patcher
+# Regisk Boot Image Patcher
 #######################################################################################
 #
 # Usage: boot_patch.sh <bootimage>
@@ -121,8 +121,8 @@ case $((STATUS & 3)) in
     cat $BOOTIMAGE > stock_boot.img
     cp -af ramdisk.cpio ramdisk.cpio.orig 2>/dev/null
     ;;
-  1 )  # Magisk patched
-    ui_print "- Magisk patched boot image detected"
+  1 )  # Regisk patched
+    ui_print "- Regisk patched boot image detected"
     # Find SHA1 of stock boot image
     [ -z $SHA1 ] && SHA1=$(./magiskboot cpio ramdisk.cpio sha1 2>/dev/null)
     ./magiskboot cpio ramdisk.cpio restore

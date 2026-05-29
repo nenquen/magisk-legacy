@@ -1,6 +1,6 @@
 #MAGISK
 ############################################
-# Magisk Uninstaller (updater-script)
+# Regisk Uninstaller (updater-script)
 ############################################
 
 ##############
@@ -29,17 +29,17 @@ setup_flashable
 # Detection
 ############
 
-if echo $MAGISK_VER | grep -q '\.'; then
-  PRETTY_VER=$MAGISK_VER
+if echo $REGISK_VER | grep -q '\.'; then
+  PRETTY_VER=$REGISK_VER
 else
-  PRETTY_VER="$MAGISK_VER($MAGISK_VER_CODE)"
+  PRETTY_VER="$REGISK_VER($REGISK_VER_CODE)"
 fi
-print_title "Magisk $PRETTY_VER Uninstaller"
+print_title "Regisk $PRETTY_VER Uninstaller"
 
-is_mounted /data || mount /data || abort "! Unable to mount /data, please uninstall with the Magisk app"
+is_mounted /data || mount /data || abort "! Unable to mount /data, please uninstall with the Regisk app"
 mount_partitions
 check_data
-$DATA_DE || abort "! Cannot access /data, please uninstall with the Magisk app"
+$DATA_DE || abort "! Cannot access /data, please uninstall with the Regisk app"
 if ! $BOOTMODE; then
   # Mounting stuffs in recovery (best effort)
   mount_name metadata /metadata
@@ -108,8 +108,8 @@ case $((STATUS & 3)) in
   0 )  # Stock boot
     ui_print "- Stock boot image detected"
     ;;
-  1 )  # Magisk patched
-    ui_print "- Magisk patched image detected"
+  1 )  # Regisk patched
+    ui_print "- Regisk patched image detected"
     # Find SHA1 of stock boot image
     SHA1=$(./magiskboot cpio ramdisk.cpio sha1 2>/dev/null)
     BACKUPDIR=/data/magisk_backup_$SHA1
@@ -144,14 +144,14 @@ case $((STATUS & 3)) in
     ;;
 esac
 
-ui_print "- Removing Magisk files"
+ui_print "- Removing Regisk files"
 rm -rf \
-/cache/*magisk* /cache/unblock /data/*magisk* /data/cache/*magisk* /data/property/*magisk* \
-/data/Magisk.apk /data/busybox /data/custom_ramdisk_patch.sh /data/adb/*magisk* \
+/cache/*regisk* /cache/unblock /data/*regisk* /data/cache/*regisk* /data/property/*regisk* \
+/data/Regisk.apk /data/busybox /data/custom_ramdisk_patch.sh /data/adb/*regisk* \
 /data/adb/post-fs-data.d /data/adb/service.d /data/adb/modules* \
-/data/unencrypted/magisk /metadata/magisk /persist/magisk /mnt/vendor/persist/magisk
+/data/unencrypted/regisk /metadata/regisk /persist/regisk /mnt/vendor/persist/regisk
 
-ADDOND=/system/addon.d/99-magisk.sh
+ADDOND=/system/addon.d/99-regisk.sh
 if [ -f $ADDOND ]; then
   blockdev --setrw /dev/block/mapper/system$SLOT 2>/dev/null
   mount -o rw,remount /system || mount -o rw,remount /
@@ -162,13 +162,13 @@ cd /
 
 if $BOOTMODE; then
   ui_print "********************************************"
-  ui_print " The Magisk app will uninstall itself, and"
+  ui_print " The Regisk app will uninstall itself, and"
   ui_print " the device will reboot after a few seconds"
   ui_print "********************************************"
   (sleep 8; /system/bin/reboot)&
 else
   ui_print "********************************************"
-  ui_print " The Magisk app will not be uninstalled"
+  ui_print " The Regisk app will not be uninstalled"
   ui_print " Please uninstall it manually after reboot"
   ui_print "********************************************"
   recovery_cleanup

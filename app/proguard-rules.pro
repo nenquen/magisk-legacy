@@ -28,12 +28,12 @@
 -keep @androidx.navigation.Navigator$Name class *
 
 # Snet
--keepclassmembers class com.topjohnwu.magisk.ui.safetynet.SafetyNetHelper { *; }
--keep,allowobfuscation interface com.topjohnwu.magisk.ui.safetynet.SafetyNetHelper$Callback
--keepclassmembers class * implements com.topjohnwu.magisk.ui.safetynet.SafetyNetHelper$Callback { *; }
+-keepclassmembers class com.regisk.legacy.ui.safetynet.SafetyNetHelper { *; }
+-keep,allowobfuscation interface com.regisk.legacy.ui.safetynet.SafetyNetHelper$Callback
+-keepclassmembers class * implements com.regisk.legacy.ui.safetynet.SafetyNetHelper$Callback { *; }
 
 # Stub
--keep class com.topjohnwu.magisk.core.App { <init>(java.lang.Object); }
+-keep class com.regisk.legacy.core.App { <init>(java.lang.Object); }
 -keepclassmembers class androidx.appcompat.app.AppCompatDelegateImpl {
   boolean mActivityHandlesUiModeChecked;
   boolean mActivityHandlesUiMode;

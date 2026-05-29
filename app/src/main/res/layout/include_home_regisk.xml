@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.regisk.legacy.core.Info" />
+
+        <import type="com.regisk.legacy.ui.home.RegiskState" />
+
+        <variable
+            name="viewModel"
+            type="com.regisk.legacy.ui.home.HomeViewModel" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/WidgetFoundation.Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/l1"
+            android:paddingTop="@dimen/l_50"
+            android:paddingEnd="@dimen/l1"
+            android:paddingBottom="@dimen/l_50"
+            tools:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/home_regisk_icon"
+                style="@style/WidgetFoundation.Icon.Primary"
+                android:padding="@dimen/l_25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_regisk_outline" />
+
+            <TextView
+                android:id="@+id/home_regisk_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/l_50"
+                android:text="@string/regisk"
+                android:textAppearance="@style/AppearanceFoundation.Title"
+                android:textColor="?colorPrimary"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toBottomOf="@+id/home_regisk_icon"
+                app:layout_constraintEnd_toStartOf="@+id/home_regisk_button"
+                app:layout_constraintStart_toEndOf="@+id/home_regisk_icon"
+                app:layout_constraintTop_toTopOf="@+id/home_regisk_icon" />
+
+            <FrameLayout
+                android:id="@+id/home_regisk_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/home_regisk_title"
+                app:layout_constraintTop_toTopOf="@+id/home_regisk_title">
+
+                <Button
+                    style="@style/WidgetFoundation.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.onRegiskPressed()}"
+                    android:text="@string/install"
+                    android:textAllCaps="false"
+                    android:layout_gravity="end" />
+
+            </FrameLayout>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/home_regisk_title_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:referencedIds="@{viewModel.regiskTitleBarrierIds}"
+                tools:constraint_referenced_ids="home_regisk_icon,home_regisk_title,home_regisk_button" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fadingEdgeLength="@dimen/l1"
+                android:requiresFadingEdge="horizontal"
+                android:scrollbars="none"
+                app:layout_constraintTop_toBottomOf="@+id/home_regisk_title_barrier">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/home_regisk_installed_version"
+                            style="@style/W.Home.Item.Top"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                style="@style/W.Home.ItemContent"
+                                android:text="@string/home_installed_version" />
+
+                            <TextView
+                                style="@style/W.Home.ItemContent.Right"
+                                android:text="@{viewModel.regiskInstalledVersion}"
+                                tools:text="22.0 (22000)" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/home_device_details_ramdisk"
+                            style="@style/W.Home.Item.Bottom"
+                            app:layout_constraintStart_toStartOf="@+id/home_regisk_installed_version"
+                            app:layout_constraintTop_toBottomOf="@+id/home_regisk_installed_version">
+
+                            <TextView
+                                style="@style/W.Home.ItemContent"
+                                android:text="Ramdisk" />
+
+                            <TextView
+                                style="@style/W.Home.ItemContent.Right"
+                                android:text="@{Info.ramdisk ? @string/yes : @string/no }"
+                                tools:text="Yes" />
+
+                        </LinearLayout>
+
+                        <androidx.constraintlayout.widget.Barrier
+                            android:id="@+id/home_regisk_barrier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:barrierDirection="end"
+                            app:referencedIds="@{viewModel.regiskDetailBarrierIds}"
+                            tools:constraint_referenced_ids="home_regisk_installed_version,home_device_details_ramdisk"/>
+
+                        <LinearLayout
+                            android:id="@+id/home_device_details_ab"
+                            style="@style/W.Home.Item.Top"
+                            app:layout_constraintStart_toStartOf="@id/home_regisk_barrier"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                style="@style/W.Home.ItemContent"
+                                android:text="A/B" />
+
+                            <TextView
+                                style="@style/W.Home.ItemContent.Right"
+                                android:text="@{Info.isAB ? @string/yes : @string/no}"
+                                tools:text="Yes" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/home_device_details_sar"
+                            style="@style/W.Home.Item.Bottom"
+                            app:layout_constraintStart_toStartOf="@+id/home_device_details_ab"
+                            app:layout_constraintTop_toBottomOf="@+id/home_device_details_ab">
+
+                            <TextView
+                                style="@style/W.Home.ItemContent"
+                                android:text="SAR" />
+
+                            <TextView
+                                style="@style/W.Home.ItemContent.Right"
+                                android:text="@{Info.isSAR ? @string/yes : @string/no}"
+                                tools:text="Yes" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

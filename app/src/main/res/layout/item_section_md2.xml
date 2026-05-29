@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.topjohnwu.magisk.ui.module.SectionTitle" />
+            type="com.regisk.legacy.ui.module.SectionTitle" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.module.ModuleViewModel" />
+            type="com.regisk.legacy.ui.module.ModuleViewModel" />
 
     </data>
 

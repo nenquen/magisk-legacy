@@ -7,9 +7,9 @@ repositories {
 
 gradlePlugin {
     plugins {
-        register("MagiskPlugin") {
-            id = "MagiskPlugin"
-            implementationClass = "com.topjohnwu.magisk.build.MagiskPlugin"
+        register("RegiskPlugin") {
+            id = "RegiskPlugin"
+            implementationClass = "com.regisk.legacy.build.RegiskPlugin"
         }
     }
 }

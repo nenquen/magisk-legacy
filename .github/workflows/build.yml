@@ -1,4 +1,4 @@
-name: Magisk Build
+name: Regisk Build
 
 on:
   push:
@@ -99,11 +99,11 @@ jobs:
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: magisk-debug
+          name: regisk-debug
           path: app/build/outputs/apk/debug/*.apk
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: magisk-release
+          name: regisk-release
           path: app/build/outputs/apk/release/*.apk

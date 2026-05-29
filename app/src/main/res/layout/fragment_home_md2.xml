@@ -5,14 +5,14 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.core.Info" />
+        <import type="com.regisk.legacy.core.Info" />
 
-        <import type="com.topjohnwu.magisk.ui.home.MagiskState" />
+        <import type="com.regisk.legacy.ui.home.RegiskState" />
 
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.home.HomeViewModel" />
+            type="com.regisk.legacy.ui.home.HomeViewModel" />
 
     </data>
 
@@ -46,8 +46,8 @@
 
 
             <include
-                android:id="@+id/home_magisk_wrapper"
-                layout="@layout/include_home_magisk"
+                android:id="@+id/home_regisk_wrapper"
+                layout="@layout/include_home_regisk"
                 viewModel="@{viewModel}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginStart="@dimen/l1"
                 android:layout_marginTop="@dimen/l1"
                 android:layout_marginEnd="@dimen/l1"
-                app:layout_constraintTop_toBottomOf="@+id/home_magisk_wrapper" />
+                app:layout_constraintTop_toBottomOf="@+id/home_regisk_wrapper" />
 
             <Space
                 gone="@{!Info.env.isActive}"
@@ -79,7 +79,7 @@
                 android:layout_marginStart="@dimen/l1"
                 android:layout_marginEnd="@dimen/l1"
                 android:onClick="@{() -> viewModel.onDeletePressed()}"
-                android:text="@string/uninstall_magisk_title"
+                android:text="@string/uninstall_regisk_title"
                 android:textAllCaps="false"
                 android:textSize="12sp"
                 app:cornerRadius="@dimen/r1"

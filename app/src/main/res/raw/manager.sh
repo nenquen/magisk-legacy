@@ -1,5 +1,5 @@
-##################################
-# Magisk app internal scripts
+﻿##################################
+# Regisk app internal scripts
 ##################################
 
 run_delay() {
@@ -8,7 +8,7 @@ run_delay() {
 
 env_check() {
   for file in busybox magiskboot magiskinit util_functions.sh boot_patch.sh; do
-    [ -f $MAGISKBIN/$file ] || return 1
+    [ -f $REGISKBIN/$file ] || return 1
   done
   return 0
 }
@@ -33,12 +33,12 @@ cp_readlink() {
 
 fix_env() {
   # Cleanup and make dirs
-  rm -rf $MAGISKBIN/*
-  mkdir -p $MAGISKBIN 2>/dev/null
+  rm -rf $REGISKBIN/*
+  mkdir -p $REGISKBIN 2>/dev/null
   chmod 700 $NVBASE
-  cp_readlink $1 $MAGISKBIN
+  cp_readlink $1 $REGISKBIN
   rm -rf $1
-  chown -R 0:0 $MAGISKBIN
+  chown -R 0:0 $REGISKBIN
 }
 
 direct_install() {
@@ -72,7 +72,7 @@ run_uninstaller() {
 
 restore_imgs() {
   [ -z $SHA1 ] && return 1
-  local BACKUPDIR=/data/magisk_backup_$SHA1
+  local BACKUPDIR=/data/regisk_backup_$SHA1
   [ -d $BACKUPDIR ] || return 1
 
   get_flags
@@ -107,16 +107,16 @@ EOF
 
 add_hosts_module() {
   # Do not touch existing hosts module
-  [ -d $MAGISKTMP/modules/hosts ] && return
-  cd $MAGISKTMP/modules
+  [ -d $REGISKTMP/modules/hosts ] && return
+  cd $REGISKTMP/modules
   mkdir -p hosts/system/etc
   cat << EOF > hosts/module.prop
 id=hosts
 name=Systemless Hosts
 version=1.0
 versionCode=1
-author=Magisk
-description=Magisk app built-in systemless hosts module
+author=Regisk
+description=Regisk app built-in systemless hosts module
 EOF
   magisk --clone /system/etc/hosts hosts/system/etc/hosts
   touch hosts/update
@@ -204,7 +204,7 @@ app_init() {
   mount_partitions
   get_flags
   run_migrations
-  SHA1=$(grep_prop SHA1 $MAGISKTMP/config)
+  SHA1=$(grep_prop SHA1 $REGISKTMP/config)
   check_boot_ramdisk && RAMDISKEXIST=true || RAMDISKEXIST=false
   check_encryption
   # Make sure RECOVERYMODE has value

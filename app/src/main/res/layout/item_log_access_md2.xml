@@ -5,15 +5,15 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.R" />
+        <import type="com.regisk.legacy.R" />
 
         <variable
             name="item"
-            type="com.topjohnwu.magisk.ui.log.LogRvItem" />
+            type="com.regisk.legacy.ui.log.LogRvItem" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.log.LogViewModel" />
+            type="com.regisk.legacy.ui.log.LogViewModel" />
 
     </data>
 
@@ -58,7 +58,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/magisk" />
+                tools:text="@string/regisk" />
 
             <TextView
                 android:id="@+id/log_date"

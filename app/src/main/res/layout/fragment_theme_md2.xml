@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.ui.theme.Theme" />
+        <import type="com.regisk.legacy.ui.theme.Theme" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.theme.ThemeViewModel" />
+            type="com.regisk.legacy.ui.theme.ThemeViewModel" />
 
     </data>
 

@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/hideFragment"
-        android:name="com.topjohnwu.magisk.ui.hide.HideFragment"
+        android:name="com.regisk.legacy.ui.hide.HideFragment"
         android:label="HideFragment"
         tools:layout="@layout/fragment_hide_md2" />
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.topjohnwu.magisk.ui.home.HomeFragment"
+        android:name="com.regisk.legacy.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home_md2">
 
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/flashFragment"
-        android:name="com.topjohnwu.magisk.ui.flash.FlashFragment"
+        android:name="com.regisk.legacy.ui.flash.FlashFragment"
         android:label="FlashFragment"
         tools:layout="@layout/fragment_flash_md2">
 
@@ -60,19 +60,19 @@
 
     <fragment
         android:id="@+id/installFragment"
-        android:name="com.topjohnwu.magisk.ui.install.InstallFragment"
+        android:name="com.regisk.legacy.ui.install.InstallFragment"
         android:label="InstallFragment"
         tools:layout="@layout/fragment_install_md2" />
 
     <fragment
         android:id="@+id/logFragment"
-        android:name="com.topjohnwu.magisk.ui.log.LogFragment"
+        android:name="com.regisk.legacy.ui.log.LogFragment"
         android:label="LogFragment"
         tools:layout="@layout/fragment_log_md2" />
 
     <fragment
         android:id="@+id/modulesFragment"
-        android:name="com.topjohnwu.magisk.ui.module.ModuleFragment"
+        android:name="com.regisk.legacy.ui.module.ModuleFragment"
         android:label="ModuleFragment"
         tools:layout="@layout/fragment_module_md2" />
 
@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.topjohnwu.magisk.ui.settings.SettingsFragment"
+        android:name="com.regisk.legacy.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings_md2">
 
@@ -96,7 +96,7 @@
 
     <fragment
         android:id="@+id/superuserFragment"
-        android:name="com.topjohnwu.magisk.ui.superuser.SuperuserFragment"
+        android:name="com.regisk.legacy.ui.superuser.SuperuserFragment"
         android:label="SuperuserFragment"
         tools:layout="@layout/fragment_superuser_md2">
 
@@ -112,7 +112,7 @@
 
     <fragment
         android:id="@+id/themeFragment"
-        android:name="com.topjohnwu.magisk.ui.theme.ThemeFragment"
+        android:name="com.regisk.legacy.ui.theme.ThemeFragment"
         android:label="ThemeFragment"
         tools:layout="@layout/fragment_theme_md2" />
 

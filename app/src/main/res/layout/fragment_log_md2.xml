@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.log.LogViewModel" />
+            type="com.regisk.legacy.ui.log.LogViewModel" />
 
     </data>
 
@@ -16,8 +16,8 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/log_filter_magisk"
-            layout="@layout/include_log_magisk"
+            android:id="@+id/log_filter_regisk"
+            layout="@layout/include_log_regisk"
             viewModel="@{viewModel}"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

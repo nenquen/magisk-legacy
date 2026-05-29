@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.topjohnwu.magisk.core.Info" />
+        <import type="com.regisk.legacy.core.Info" />
 
         <variable
             name="viewModel"
-            type="com.topjohnwu.magisk.ui.MainViewModel" />
+            type="com.regisk.legacy.ui.MainViewModel" />
 
     </data>
 
@@ -35,7 +35,7 @@
             style="@style/WidgetFoundation.Appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="com.topjohnwu.magisk.utils.HideTopViewOnScrollBehavior"
+            app:layout_behavior="com.regisk.legacy.utils.HideTopViewOnScrollBehavior"
             app:fitsSystemWindowsInsets="top">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -71,7 +71,7 @@
             android:layout_marginBottom="@dimen/l1"
             android:fitsSystemWindows="false"
             app:layout_fitsSystemWindowsInsets="bottom"
-            app:layout_behavior="com.topjohnwu.magisk.utils.HideBottomViewOnScrollBehavior"
+            app:layout_behavior="com.regisk.legacy.utils.HideBottomViewOnScrollBehavior"
             tools:layout_marginBottom="64dp">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView

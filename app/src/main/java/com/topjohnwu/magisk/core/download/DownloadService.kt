@@ -64,7 +64,8 @@ open class DownloadService : BaseDownloader() {
 
     private fun Notification.Builder.setContentIntent(intent: Intent) =
         setContentIntent(
-            PendingIntent.getActivity(context, nextInt(), intent, PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getActivity(context, nextInt(), intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT)
         )
 
     // ---
@@ -77,10 +78,10 @@ open class DownloadService : BaseDownloader() {
         fun pendingIntent(context: Context, subject: Subject): PendingIntent {
             return if (Build.VERSION.SDK_INT >= 26) {
                 PendingIntent.getForegroundService(context, nextInt(),
-                    intent(context, subject), PendingIntent.FLAG_UPDATE_CURRENT)
+                    intent(context, subject), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             } else {
                 PendingIntent.getService(context, nextInt(),
-                    intent(context, subject), PendingIntent.FLAG_UPDATE_CURRENT)
+                    intent(context, subject), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             }
         }
 

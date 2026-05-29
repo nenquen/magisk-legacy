@@ -38,7 +38,7 @@ object ServiceLocator {
 
     object VMFactory : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(clz: Class<T>): T {
+        override fun <T : ViewModel> create(clz: Class<T>): T {
             return when (clz) {
                 LogViewModel::class.java -> LogViewModel(logRepo)
                 ModuleViewModel::class.java -> ModuleViewModel(repoDB)

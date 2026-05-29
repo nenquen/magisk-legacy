@@ -62,6 +62,13 @@ void dyn_img_hdr::print() {
         fprintf(stderr, "%-*s [%u]\n", PADDING, "RECOV_DTBO_SZ", recovery_dtbo_size());
     if (ver == 2)
         fprintf(stderr, "%-*s [%u]\n", PADDING, "DTB_SZ", dtb_size());
+    if (auto vnd_ramdisk_sz = vendor_ramdisk_size())
+        fprintf(stderr, "%-*s [%u]\n", PADDING, "VENDOR_RAMDISK_SZ", vnd_ramdisk_sz);
+    if (auto vnd_tbl_sz = vendor_ramdisk_table_size()) {
+        fprintf(stderr, "%-*s [%u]\n", PADDING, "VENDOR_RAMDISK_TBL_SZ", vnd_tbl_sz);
+        if (auto bc_sz = bootconfig_size())
+            fprintf(stderr, "%-*s [%u]\n", PADDING, "BOOTCONFIG_SZ", bc_sz);
+    }
 
     if (uint32_t os_ver = os_version()) {
         int a,b,c,y,m = 0;
@@ -246,8 +253,16 @@ off = do_align(off, hdr->page_size()); \
 void boot_img::parse_image(uint8_t *addr, format_t type) {
     auto hp = reinterpret_cast<boot_img_hdr*>(addr);
     if (type == AOSP_VENDOR) {
+        auto vnd_hp = reinterpret_cast<boot_img_hdr_vnd_v3*>(addr);
         fprintf(stderr, "VENDOR_BOOT_HDR\n");
-        hdr = new dyn_img_vnd_v3(addr);
+        switch (vnd_hp->header_version) {
+        case 4:
+            hdr = new dyn_img_vnd_v4(addr);
+            break;
+        default:
+            hdr = new dyn_img_vnd_v3(addr);
+            break;
+        }
     } else if (hp->page_size >= 0x02000000) {
         fprintf(stderr, "PXA_BOOT_HDR\n");
         hdr = new dyn_img_pxa(addr);
@@ -276,6 +291,9 @@ void boot_img::parse_image(uint8_t *addr, format_t type) {
         case 3:
             hdr = new dyn_img_v3(addr);
             break;
+        case 4:
+            hdr = new dyn_img_v4(addr);
+            break;
         default:
             hdr = new dyn_img_v0(addr);
             break;
@@ -295,12 +313,31 @@ void boot_img::parse_image(uint8_t *addr, format_t type) {
 
     size_t off = hdr->hdr_space();
     hdr_addr = addr;
+
+    // v4 vendor boot: vendor ramdisk table sits between header and ramdisk
+    if (type == AOSP_VENDOR && hdr->header_version() == 4) {
+        off += hdr->vendor_ramdisk_table_size();
+        off = do_align(off, hdr->page_size());
+    }
+
     get_block(kernel);
     get_block(ramdisk);
     get_block(second);
     get_block(extra);
     get_block(recovery_dtbo);
     get_block(dtb);
+
+    // v4 vendor boot: bootconfig after dtb
+    if (type == AOSP_VENDOR && hdr->header_version() == 4) {
+        off += hdr->bootconfig_size();
+    }
+    // v4 AOSP boot: vendor ramdisk past all main sections
+    vendor_ramdisk = nullptr;
+    if (hdr->header_version() == 4 && type == AOSP) {
+        vendor_ramdisk = addr + off;
+        off += hdr->vendor_ramdisk_size();
+        off = do_align(off, hdr->page_size());
+    }
 
     if (int dtb_off = find_dtb_offset(kernel, hdr->kernel_size()); dtb_off > 0) {
         kernel_dtb = kernel + dtb_off;
@@ -438,6 +475,11 @@ int unpack(const char *image, bool skip_decomp, bool hdr) {
     // Dump dtb
     dump(boot.dtb, boot.hdr->dtb_size(), DTB_FILE);
 
+    // Dump vendor ramdisk (v4 boot / v4 vendor boot)
+    if (boot.vendor_ramdisk) {
+        dump(boot.vendor_ramdisk, boot.hdr->vendor_ramdisk_size(), VENDOR_RAMDISK_FILE);
+    }
+
     return boot.flags[CHROMEOS_FLAG] ? 2 : 0;
 }
 
@@ -491,6 +533,13 @@ void repack(const char *src_img, const char *out_img, bool skip_comp) {
     // Copy raw header
     off.header = lseek(fd, 0, SEEK_CUR);
     xwrite(fd, boot.hdr_addr, hdr->hdr_space());
+
+    // vendor ramdisk table (v4 vendor boot) - preserve from original image
+    if (boot.hdr->vendor_ramdisk_table_size() > 0) {
+        uint8_t *tbl_src = boot.hdr_addr + boot.hdr->hdr_space();
+        xwrite(fd, tbl_src, boot.hdr->vendor_ramdisk_table_size());
+        file_align();
+    }
 
     // kernel
     off.kernel = lseek(fd, 0, SEEK_CUR);
@@ -567,6 +616,25 @@ void repack(const char *src_img, const char *out_img, bool skip_comp) {
     off.dtb = lseek(fd, 0, SEEK_CUR);
     if (access(DTB_FILE, R_OK) == 0) {
         hdr->dtb_size() = restore(fd, DTB_FILE);
+        file_align();
+    }
+
+    // bootconfig (v4 vendor boot) - preserve from original image
+    if (boot.hdr->bootconfig_size() > 0) {
+        size_t bc_off = boot.hdr->hdr_space();
+        bc_off += boot.hdr->vendor_ramdisk_table_size();
+        bc_off = do_align(bc_off, boot.hdr->page_size());
+        bc_off += boot.hdr->ramdisk_size();
+        bc_off = do_align(bc_off, boot.hdr->page_size());
+        bc_off += boot.hdr->dtb_size();
+        bc_off = do_align(bc_off, boot.hdr->page_size());
+        xwrite(fd, boot.hdr_addr + bc_off, boot.hdr->bootconfig_size());
+        file_align();
+    }
+
+    // vendor ramdisk (v4 AOSP boot)
+    if (access(VENDOR_RAMDISK_FILE, R_OK) == 0) {
+        hdr->vendor_ramdisk_size() = restore(fd, VENDOR_RAMDISK_FILE);
         file_align();
     }
 

@@ -95,6 +95,8 @@ struct AvbVBMetaImageHeader {
 #define BOOT_ARGS_SIZE 512
 #define BOOT_EXTRA_ARGS_SIZE 1024
 #define VENDOR_BOOT_ARGS_SIZE 2048
+#define VENDOR_BOOT_HEADER_SIZE_V4 2128
+#define VENDOR_RAMDISK_TABLE_ENTRY_BOARD_ID_SIZE 32
 
 /*
  * +-----------------+
@@ -252,6 +254,19 @@ struct boot_img_hdr_vnd_v3 {
     uint64_t dtb_addr;      /* physical load address for DTB image */
 } __attribute__((packed));
 
+/* Boot image header v4 extends v3 with a vendor_ramdisk_size field. */
+struct boot_img_hdr_v4 : public boot_img_hdr_v3 {
+    uint32_t vendor_ramdisk_size;  /* size in bytes for vendor ramdisk */
+} __attribute__((packed));
+
+/* Vendor boot image header v4 adds vendor ramdisk table and bootconfig fields. */
+struct boot_img_hdr_vnd_v4 : public boot_img_hdr_vnd_v3 {
+    uint32_t vendor_ramdisk_table_size;
+    uint32_t vendor_ramdisk_table_entry_num;
+    uint32_t vendor_ramdisk_table_entry_size;
+    uint32_t bootconfig_size;
+} __attribute__((packed));
+
 /*******************************
  * Polymorphic Universal Header
  *******************************/
@@ -283,6 +298,13 @@ struct dyn_img_hdr {
     decl_var(header_size, 32)
     decl_var(dtb_size, 32)
 
+    // v4 specific
+    decl_var(vendor_ramdisk_size, 32)
+    decl_var(vendor_ramdisk_table_size, 32)
+    decl_val(vendor_ramdisk_table_entry_num, uint32_t)
+    decl_val(vendor_ramdisk_table_entry_size, uint32_t)
+    decl_val(bootconfig_size, uint32_t)
+
     virtual ~dyn_img_hdr() {
         free(raw);
     }
@@ -301,8 +323,10 @@ protected:
         // Main header could be either AOSP or PXA
         boot_img_hdr_v2 *v2_hdr;     /* AOSP v2 header */
         boot_img_hdr_v3 *v3_hdr;     /* AOSP v3 header */
+        boot_img_hdr_v4 *v4_hdr;     /* AOSP v4 header */
         boot_img_hdr_pxa *hdr_pxa;   /* Samsung PXA header */
         boot_img_hdr_vnd_v3 *vnd;    /* AOSP vendor v3 header */
+        boot_img_hdr_vnd_v4 *vnd_v4; /* AOSP vendor v4 header */
         void *raw;                   /* Raw pointer */
     };
 
@@ -425,6 +449,50 @@ struct dyn_img_vnd_v3 : public dyn_img_hdr {
     char *extra_cmdline() override { return &vnd->cmdline[BOOT_ARGS_SIZE]; }
 };
 
+#undef impl_val
+#define impl_val(name) __impl_val(name, v4_hdr)
+
+struct dyn_img_v4 : public dyn_img_hdr {
+    impl_cls(v4)
+
+    impl_val(kernel_size)
+    impl_val(ramdisk_size)
+    impl_val(os_version)
+    impl_val(header_size)
+    impl_val(header_version)
+    impl_val(cmdline)
+
+    uint32_t &vendor_ramdisk_size() override { return v4_hdr->vendor_ramdisk_size; }
+    uint32_t &page_size() override { page_sz = 4096; return page_sz; }
+    char *extra_cmdline() override { return &v4_hdr->cmdline[BOOT_ARGS_SIZE]; }
+
+private:
+    uint32_t page_sz = 4096;
+};
+
+#undef impl_val
+#define impl_val(name) __impl_val(name, vnd_v4)
+
+struct dyn_img_vnd_v4 : public dyn_img_hdr {
+    impl_cls(vnd_v4)
+
+    impl_val(header_version)
+    impl_val(page_size)
+    impl_val(ramdisk_size)
+    impl_val(cmdline)
+    impl_val(name)
+    impl_val(header_size)
+    impl_val(dtb_size)
+
+    uint32_t &vendor_ramdisk_table_size() override { return vnd_v4->vendor_ramdisk_table_size; }
+    uint32_t vendor_ramdisk_table_entry_num() override { return vnd_v4->vendor_ramdisk_table_entry_num; }
+    uint32_t vendor_ramdisk_table_entry_size() override { return vnd_v4->vendor_ramdisk_table_entry_size; }
+    uint32_t bootconfig_size() override { return vnd_v4->bootconfig_size; }
+
+    size_t hdr_space() override { auto sz = page_size(); return do_align(hdr_size(), sz); }
+    char *extra_cmdline() override { return &vnd_v4->cmdline[BOOT_ARGS_SIZE]; }
+};
+
 #undef __impl_cls
 #undef __impl_val
 #undef impl_cls
@@ -492,6 +560,7 @@ struct boot_img {
     uint8_t *extra;
     uint8_t *recovery_dtbo;
     uint8_t *dtb;
+    uint8_t *vendor_ramdisk;
 
     boot_img(const char *);
     ~boot_img();

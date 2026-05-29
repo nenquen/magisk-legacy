@@ -7,7 +7,12 @@
 #include <utils.hpp>
 
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+// Suppress unavailability annotation for functions introduced in API > minSdkVersion
+#pragma push_macro("__INTRODUCED_IN")
+#undef __INTRODUCED_IN
+#define __INTRODUCED_IN(x)
 #include <_system_properties.h>
+#pragma pop_macro("__INTRODUCED_IN")
 
 #include "_resetprop.hpp"
 

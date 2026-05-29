@@ -64,7 +64,7 @@
         </receiver>
 
         <!-- DownloadService -->
-        <service android:name=".core.download.DownloadService" />
+        <service android:name=".core.download.DownloadService" android:foregroundServiceType="dataSync" />
 
         <!-- FileProvider -->
         <provider

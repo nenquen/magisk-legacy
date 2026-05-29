@@ -136,7 +136,7 @@ LOCAL_SRC_FILES := \
     resetprop/resetprop.cpp \
 
 LOCAL_CFLAGS := -DAPPLET_STUB_MAIN=resetprop_main
-LOCAL_LDFLAGS := -static
+LOCAL_LDFLAGS := -static -Wl,--allow-multiple-definition
 include $(BUILD_EXECUTABLE)
 
 endif

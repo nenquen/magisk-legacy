@@ -7,6 +7,7 @@
 
     <!-- YASNAC dark: deep gray background (not pure black) -->
     <style name="Foundation.Default">
+        <item name="android:fontFamily">@font/font</item>
         <item name="android:colorBackground">#000000</item>
         <item name="android:windowBackground">#000000</item>
     </style>

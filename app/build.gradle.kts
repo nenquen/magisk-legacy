@@ -110,6 +110,50 @@ val syncResources by tasks.registering(Sync::class) {
 
 tasks.findByName("preBuild")?.dependsOn(syncResources)
 
+// Native binaries built via ndk-build (without lib prefix / .so suffix)
+val nativeBinaries = listOf("magisk", "magiskboot", "magiskinit", "magiskpolicy", "resetprop")
+val nativeArchs = listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+
+// Locate native binary: check native/libs first (direct ndk-build), then native/out (build.py)
+fun findNativeBinary(arch: String, name: String): File? {
+    val candidates = listOf(
+        rootProject.file("native/libs/$arch/$name"),
+        rootProject.file("native/out/$arch/$name")
+    )
+    return candidates.firstOrNull { it.isFile }
+}
+
+val jniStagingDir = layout.buildDirectory.dir("jniLibs")
+
+val syncNativeLibs by tasks.registering {
+    doLast {
+        val dstBase = jniStagingDir.get().asFile
+        nativeArchs.forEach { arch ->
+            val dstDir = dstBase.resolve(arch)
+            dstDir.mkdirs()
+            for (bin in nativeBinaries) {
+                val srcFile = findNativeBinary(arch, bin)
+                if (srcFile != null) {
+                    val dstFile = dstDir.resolve("lib${bin}.so")
+                    if (!dstFile.isFile || srcFile.lastModified() > dstFile.lastModified()) {
+                        srcFile.copyTo(dstFile, overwrite = true)
+                        dstFile.setExecutable(false)
+                        logger.info("jniLibs: " + srcFile.name + " -> " + dstFile)
+                    }
+                }
+            }
+        }
+    }
+}
+
+android.sourceSets.all {
+    jniLibs.srcDir(jniStagingDir)
+}
+
+tasks.matching { it.name.startsWith("merge") && it.name.endsWith("JniLibFolders") }.configureEach {
+    dependsOn(syncNativeLibs)
+}
+
 android.applicationVariants.all {
     val keysDir = rootProject.file("tools/keys")
     val outSrcDir = File(buildDir, "generated/source/keydata/$name")

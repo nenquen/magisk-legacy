@@ -111,7 +111,7 @@ abstract class BaseUIActivity<VM : BaseViewModel, Binding : ViewDataBinding> :
 
     override fun onBackPressed() {
         if (navigation == null || currentFragment?.onBackPressed()?.not() == true) {
-            super.onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

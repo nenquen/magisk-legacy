@@ -4,7 +4,7 @@ APP_CFLAGS := -Wall -Oz -fomit-frame-pointer -flto \
 APP_LDFLAGS := -flto
 APP_CPPFLAGS := -std=c++17
 APP_STL := none
-APP_PLATFORM := android-21
+APP_PLATFORM := android-35
 
 ifdef MAGISK_DEBUG
 APP_CFLAGS += -D__MDBG
@@ -17,5 +17,5 @@ endif
 
 # Busybox should use stock libc.a
 ifdef B_BB
-APP_PLATFORM := android-22
+APP_PLATFORM := android-35
 endif

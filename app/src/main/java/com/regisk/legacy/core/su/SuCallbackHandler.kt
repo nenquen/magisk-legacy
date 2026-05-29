@@ -23,6 +23,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Suppress("DEPRECATION")
 object SuCallbackHandler {
 
     const val REQUEST = "request"

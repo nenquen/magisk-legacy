@@ -45,7 +45,7 @@ object ServiceLocator {
                 SettingsViewModel::class.java -> SettingsViewModel(repoDB)
                 SuperuserViewModel::class.java -> SuperuserViewModel(policyDB)
                 SuRequestViewModel::class.java -> SuRequestViewModel(policyDB, timeoutPrefs)
-                else -> clz.newInstance()
+                else -> @Suppress("DEPRECATION") clz.newInstance()
             } as T
         }
     }

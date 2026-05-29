@@ -95,6 +95,7 @@ fun Intent.startActivityWithRoot() {
     Shell.su(cmd).submit()
 }
 
+@Suppress("DEPRECATION")
 fun Intent.toCommand(args: MutableList<String> = mutableListOf()): MutableList<String> {
     action?.also {
         args.add("-a")
@@ -203,6 +204,7 @@ fun <Result> Cursor.toList(transformer: (Cursor) -> Result): List<Result> {
     return out
 }
 
+@Suppress("DEPRECATION")
 fun ApplicationInfo.getLabel(pm: PackageManager): String {
     runCatching {
         if (labelRes > 0) {

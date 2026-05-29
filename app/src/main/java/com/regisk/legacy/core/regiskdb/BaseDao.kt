@@ -18,6 +18,7 @@ abstract class BaseDao {
     @TableStrict
     abstract val table: String
 
+    @Suppress("DEPRECATION")
     inline fun <reified Builder : Query.Builder> buildQuery(builder: Builder.() -> Unit = {}) =
         Builder::class.java.newInstance()
             .apply { table = this@BaseDao.table }

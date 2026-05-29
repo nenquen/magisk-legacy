@@ -33,6 +33,7 @@ abstract class BaseDownloader : BaseService() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        @Suppress("DEPRECATION")
         intent.getParcelableExtra<Subject>(ACTION_KEY)?.let { subject ->
             update(subject.notifyID())
             coroutineScope.launch {
@@ -150,6 +151,7 @@ abstract class BaseDownloader : BaseService() {
             val (id, notification) = notifications.entries.first()
             startForeground(id, notification.build())
         } else {
+            @Suppress("DEPRECATION")
             stopForeground(false)
         }
     }

@@ -121,6 +121,7 @@ open class WindowInsetsHelper private constructor(
         return callback.invoke(insets, left, top, right, bottom)
     }
 
+    @Suppress("DEPRECATION")
     private fun applyWindowInsets(windowInsets: WindowInsetsCompat): WindowInsetsCompat {
         if (fitSystemWindows != 0) {
             val padding = Rect(initialPaddingLeft, initialPaddingTop, initialPaddingRight, initialPaddingBottom)

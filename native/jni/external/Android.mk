@@ -241,7 +241,7 @@ LOCAL_SRC_FILES := \
     selinux/libsepol/cil/src/cil_symtab.c \
     selinux/libsepol/cil/src/cil_tree.c \
     selinux/libsepol/cil/src/cil_verify.c
-LOCAL_CFLAGS := -Dgetline=__getline -Wno-implicit-function-declaration
+LOCAL_CFLAGS := -Dgetline=__getline -Wno-implicit-function-declaration -Wno-unused-but-set-variable
 include $(BUILD_STATIC_LIBRARY)
 
 # libselinux.a

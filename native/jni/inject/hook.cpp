@@ -37,8 +37,9 @@ static vector<tuple<const char *, const char *, void **>> *xhook_list;
 static vector<JNINativeMethod> *jni_list;
 
 static JavaVM *g_jvm;
-static int prev_fork_pid = -1;
-static HookContext *current_ctx;
+// Thread-safe: use __thread so each zygote thread has its own fork tracking
+static __thread int prev_fork_pid = -1;
+static __thread HookContext *current_ctx = nullptr;
 
 #define HOOK_JNI(method) \
 if (newMethods[i].name == #method##sv) { \
@@ -128,6 +129,12 @@ static void nativeSpecializeAppProcess_pre(HookContext *ctx,
         jboolean &mount_storage_dirs) {
 
     current_ctx = ctx;
+
+    // Skip hiding for app zygotes themselves (child zygotes fork real apps later)
+    if (is_child_zygote) {
+        LOGD("hook: %s skipping child_zygote\n", __FUNCTION__);
+        return;
+    }
 
     const char *process = env->GetStringUTFChars(nice_name, nullptr);
     LOGD("hook: %s %s\n", __FUNCTION__, process);

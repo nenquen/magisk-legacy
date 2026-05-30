@@ -110,7 +110,8 @@ void hide_unmount(int pid) {
     // Unmount dummy skeletons and /sbin links
     targets.push_back(MAGISKTMP);
     parse_mnt("/proc/self/mounts", [&](mntent *mentry) {
-        if (TMPFS_MNT(system) || TMPFS_MNT(vendor) || TMPFS_MNT(product) || TMPFS_MNT(system_ext))
+        if (TMPFS_MNT(system) || TMPFS_MNT(vendor) || TMPFS_MNT(product) ||
+            TMPFS_MNT(system_ext) || TMPFS_MNT(odm))
             targets.emplace_back(mentry->mnt_dir);
         return true;
     });
@@ -119,14 +120,19 @@ void hide_unmount(int pid) {
         lazy_unmount(s.data());
     targets.clear();
 
-    // Unmount all Magisk created mounts
+    // Unmount all Magisk created mounts (block device + overlay)
     parse_mnt("/proc/self/mounts", [&](mntent *mentry) {
-        if (strstr(mentry->mnt_fsname, BLOCKDIR))
+        if (strstr(mentry->mnt_fsname, BLOCKDIR) ||
+            strstr(mentry->mnt_fsname, "magisk") ||
+            string_view(mentry->mnt_fsname) == "overlay")
             targets.emplace_back(mentry->mnt_dir);
         return true;
     });
 
     for (auto &s : reversed(targets))
         lazy_unmount(s.data());
+
+    // On Android 11+, also try to unmount /linkerconfig data mirrors
+    lazy_unmount("/linkerconfig");
 }
 

@@ -60,9 +60,64 @@ static void *unload_first_stage(void *) {
     // Wait another 1ms to make sure all threads left our code
     nanosleep(&ts, nullptr);
 
-    unmap_all(INJECT_LIB_1);
+    unmap_all(get_inject_lib_1());
     active_threads--;
     return nullptr;
+}
+
+const char *detect_magisk_tmp() {
+    static char tmp_path[128] = {};
+    if (tmp_path[0])
+        return tmp_path;
+
+    // Check env first (set by app_process_main)
+    const char *env = getenv(INJECT_DIR_ENV);
+    if (env) {
+        strlcpy(tmp_path, env, sizeof(tmp_path));
+        return tmp_path;
+    }
+
+    // Try /sbin (pre-Android 11 or some devices)
+    if (access("/sbin", F_OK) == 0) {
+        strlcpy(tmp_path, "/sbin", sizeof(tmp_path));
+        return tmp_path;
+    }
+
+    // Scan /proc/self/mounts for magisk tmpfs under /dev/
+    auto fp = open_file("/proc/self/mounts", "re");
+    if (fp) {
+        char buf[4096];
+        while (fgets(buf, sizeof(buf), fp.get())) {
+            char dev[256] = {}, mnt[256] = {}, type[64] = {};
+            sscanf(buf, "%255s %255s %63s", dev, mnt, type);
+            if (strcmp(type, "tmpfs") == 0 && str_starts(mnt, "/dev/") &&
+                strlen(mnt) > 5) {
+                // Found a tmpfs under /dev - likely MAGISKTMP
+                strlcpy(tmp_path, mnt, sizeof(tmp_path));
+                return tmp_path;
+            }
+        }
+    }
+
+    // Fallback to /dev/tmp (legacy)
+    strlcpy(tmp_path, "/dev/tmp", sizeof(tmp_path));
+    return tmp_path;
+}
+
+const char *get_inject_lib_1() {
+    static char path[256] = {};
+    if (path[0])
+        return path;
+    snprintf(path, sizeof(path), "%s/magisk.1.so", detect_magisk_tmp());
+    return path;
+}
+
+const char *get_inject_lib_2() {
+    static char path[256] = {};
+    if (path[0])
+        return path;
+    snprintf(path, sizeof(path), "%s/magisk.2.so", detect_magisk_tmp());
+    return path;
 }
 
 // Make sure /proc/self/environ does not reveal our secrets
@@ -89,6 +144,8 @@ static void sanitize_environ() {
 __attribute__((constructor))
 static void inject_init() {
     inject_logging();
+    const char *lib1 = get_inject_lib_1();
+    const char *lib2 = get_inject_lib_2();
 
     if (getenv(INJECT_ENV_2)) {
         LOGD("zygote: inject 2nd stage\n");
@@ -96,7 +153,7 @@ static void inject_init() {
         unsetenv(INJECT_ENV_2);
 
         // Get our own handle
-        self_handle = dlopen(INJECT_LIB_2, RTLD_LAZY);
+        self_handle = dlopen(lib2, RTLD_LAZY);
         dlclose(self_handle);
 
         hook_functions();
@@ -115,8 +172,8 @@ static void inject_init() {
 
         // Setup second stage
         setenv(INJECT_ENV_2, "1", 1);
-        cp_afc(INJECT_LIB_1, INJECT_LIB_2);
-        dlopen(INJECT_LIB_2, RTLD_LAZY);
+        cp_afc(lib1, lib2);
+        dlopen(lib2, RTLD_LAZY);
 
         unsetenv(INJECT_ENV_1);
     }
@@ -128,19 +185,25 @@ int app_process_main(int argc, char *argv[]) {
     if (realpath("/proc/self/exe", buf) == nullptr)
         return 1;
 
+    // Detect MAGISKTMP and pass to injected library via env
+    setenv(INJECT_DIR_ENV, detect_magisk_tmp(), 1);
+
+    const char *lib1 = get_inject_lib_1();
+    const char *lib2 = get_inject_lib_2();
+
     int in = xopen(buf, O_RDONLY);
-    int out = xopen(INJECT_LIB_1, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+    int out = xopen(lib1, O_CREAT | O_WRONLY | O_TRUNC, 0777);
     sendfile(out, in, nullptr, INT_MAX);
     close(in);
     close(out);
 
+    char preload_env[512];
     if (char *ld = getenv("LD_PRELOAD")) {
-        char env[128];
-        sprintf(env, "%s:" INJECT_LIB_1, ld);
-        setenv("LD_PRELOAD", env, 1);
+        snprintf(preload_env, sizeof(preload_env), "%s:%s", ld, lib1);
+        setenv("LD_PRELOAD", preload_env, 1);
         setenv(INJECT_ENV_1, ld, 1);  // Backup original LD_PRELOAD
     } else {
-        setenv("LD_PRELOAD", INJECT_LIB_1, 1);
+        setenv("LD_PRELOAD", lib1, 1);
         setenv(INJECT_ENV_1, "1", 1);
     }
 

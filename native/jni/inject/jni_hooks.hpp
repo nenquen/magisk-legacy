@@ -136,6 +136,42 @@ DCL_FORK_AND_SPECIALIZE(r,
     post_fork();
 }
 
+// Android 11 (API 30, R): added disabledCompatChanges
+DCL_FORK_AND_SPECIALIZE(api30,
+        "(II[II[[IILjava/lang/String;Ljava/lang/String;[I[IZLjava/lang/String;Ljava/lang/String;Z[Ljava/lang/String;[Ljava/lang/String;ZZ[I)I",
+        JNIEnv *env, jclass clazz, jint uid, jint gid, jintArray gids, jint runtime_flags,
+        jobjectArray rlimits, jint mount_external, jstring se_info, jstring nice_name,
+        jintArray fds_to_close, jintArray fds_to_ignore, jboolean is_child_zygote,
+        jstring instruction_set, jstring app_data_dir, jboolean is_top_app,
+        jobjectArray pkg_data_info_list, jobjectArray whitelisted_data_info_list,
+        jboolean mount_data_dirs, jboolean mount_storage_dirs,
+        jintArray disabled_compat_changes) {
+    pre_fork();
+    orig_fork(api30, env, clazz, uid, gid, gids, runtime_flags, rlimits, mount_external, se_info,
+            nice_name, fds_to_close, fds_to_ignore, is_child_zygote, instruction_set, app_data_dir,
+            is_top_app, pkg_data_info_list, whitelisted_data_info_list, mount_data_dirs,
+            mount_storage_dirs, disabled_compat_changes);
+    post_fork();
+}
+
+// Android 12+ (API 31, S): added urls_to_copy
+DCL_FORK_AND_SPECIALIZE(api31,
+        "(II[II[[IILjava/lang/String;Ljava/lang/String;[I[IZLjava/lang/String;Ljava/lang/String;Z[Ljava/lang/String;[Ljava/lang/String;ZZ[I[Ljava/lang/String;)I",
+        JNIEnv *env, jclass clazz, jint uid, jint gid, jintArray gids, jint runtime_flags,
+        jobjectArray rlimits, jint mount_external, jstring se_info, jstring nice_name,
+        jintArray fds_to_close, jintArray fds_to_ignore, jboolean is_child_zygote,
+        jstring instruction_set, jstring app_data_dir, jboolean is_top_app,
+        jobjectArray pkg_data_info_list, jobjectArray whitelisted_data_info_list,
+        jboolean mount_data_dirs, jboolean mount_storage_dirs,
+        jintArray disabled_compat_changes, jobjectArray urls_to_copy) {
+    pre_fork();
+    orig_fork(api31, env, clazz, uid, gid, gids, runtime_flags, rlimits, mount_external, se_info,
+            nice_name, fds_to_close, fds_to_ignore, is_child_zygote, instruction_set, app_data_dir,
+            is_top_app, pkg_data_info_list, whitelisted_data_info_list, mount_data_dirs,
+            mount_storage_dirs, disabled_compat_changes, urls_to_copy);
+    post_fork();
+}
+
 DCL_FORK_AND_SPECIALIZE(samsung_m,
         "(II[II[[IILjava/lang/String;IILjava/lang/String;[ILjava/lang/String;Ljava/lang/String;)I",
         JNIEnv *env, jclass clazz, jint uid, jint gid, jintArray gids, jint runtime_flags,
@@ -274,6 +310,41 @@ DCL_SPECIALIZE_APP(r,
     post_spec();
 }
 
+// Android 11 (API 30, R): added disabledCompatChanges
+DCL_SPECIALIZE_APP(api30,
+        "(II[II[[IILjava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Z[Ljava/lang/String;[Ljava/lang/String;ZZ[I)V",
+        JNIEnv *env, jclass clazz, jint uid, jint gid, jintArray gids, jint runtime_flags,
+        jobjectArray rlimits, jint mount_external, jstring se_info, jstring nice_name,
+        jboolean is_child_zygote, jstring instruction_set, jstring app_data_dir,
+        jboolean is_top_app, jobjectArray pkg_data_info_list,
+        jobjectArray whitelisted_data_info_list, jboolean mount_data_dirs,
+        jboolean mount_storage_dirs, jintArray disabled_compat_changes) {
+    pre_spec();
+    orig_spec(api30, env, clazz, uid, gid, gids, runtime_flags, rlimits, mount_external, se_info,
+            nice_name, is_child_zygote, instruction_set, app_data_dir, is_top_app,
+            pkg_data_info_list, whitelisted_data_info_list, mount_data_dirs, mount_storage_dirs,
+            disabled_compat_changes);
+    post_spec();
+}
+
+// Android 12+ (API 31, S): added urls_to_copy
+DCL_SPECIALIZE_APP(api31,
+        "(II[II[[IILjava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Z[Ljava/lang/String;[Ljava/lang/String;ZZ[I[Ljava/lang/String;)V",
+        JNIEnv *env, jclass clazz, jint uid, jint gid, jintArray gids, jint runtime_flags,
+        jobjectArray rlimits, jint mount_external, jstring se_info, jstring nice_name,
+        jboolean is_child_zygote, jstring instruction_set, jstring app_data_dir,
+        jboolean is_top_app, jobjectArray pkg_data_info_list,
+        jobjectArray whitelisted_data_info_list, jboolean mount_data_dirs,
+        jboolean mount_storage_dirs, jintArray disabled_compat_changes,
+        jobjectArray urls_to_copy) {
+    pre_spec();
+    orig_spec(api31, env, clazz, uid, gid, gids, runtime_flags, rlimits, mount_external, se_info,
+            nice_name, is_child_zygote, instruction_set, app_data_dir, is_top_app,
+            pkg_data_info_list, whitelisted_data_info_list, mount_data_dirs, mount_storage_dirs,
+            disabled_compat_changes, urls_to_copy);
+    post_spec();
+}
+
 DCL_SPECIALIZE_APP(samsung_q,
         "(II[II[[IILjava/lang/String;IILjava/lang/String;ZLjava/lang/String;Ljava/lang/String;)V",
         JNIEnv *env, jclass clazz, jint uid, jint gid, jintArray gids, jint runtime_flags,
@@ -340,6 +411,7 @@ namespace {
 const JNINativeMethod nativeForkAndSpecialize_methods[] = {
     DEF_FORK(m), DEF_FORK(o), DEF_FORK(p),
     DEF_FORK(q_alt), DEF_FORK(r),
+    DEF_FORK(api30), DEF_FORK(api31),
     DEF_FORK(samsung_m), DEF_FORK(samsung_n),
     DEF_FORK(samsung_o), DEF_FORK(samsung_p),
 #if ENABLE_LEGACY_DP
@@ -350,7 +422,8 @@ const int nativeForkAndSpecialize_methods_num = std::size(nativeForkAndSpecializ
 
 const JNINativeMethod nativeSpecializeAppProcess_methods[] = {
     DEF_SPEC(q), DEF_SPEC(q_alt),
-    DEF_SPEC(r), DEF_SPEC(samsung_q),
+    DEF_SPEC(r), DEF_SPEC(api30), DEF_SPEC(api31),
+    DEF_SPEC(samsung_q),
 #if ENABLE_LEGACY_DP
     DEF_SPEC(r_dp2), DEF_SPEC(r_dp3)
 #endif

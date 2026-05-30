@@ -4,14 +4,14 @@ LOCAL_PATH := $(call my-dir)
 # Binaries
 ########################
 
-# Global toggle for the WIP zygote injection features
-ENABLE_INJECT := 0
+# Enable Zygisk-style injection (hybrid: inject + ptrace fallback)
+ENABLE_INJECT := 1
 
 ifdef B_MAGISK
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := magisk
-LOCAL_STATIC_LIBRARIES := libnanopb libsystemproperties libutils
+LOCAL_STATIC_LIBRARIES := libnanopb libsystemproperties libutils libxhook
 LOCAL_C_INCLUDES := jni/include
 
 LOCAL_SRC_FILES := \
@@ -27,25 +27,19 @@ LOCAL_SRC_FILES := \
     magiskhide/magiskhide.cpp \
     magiskhide/hide_utils.cpp \
     magiskhide/hide_policy.cpp \
+    magiskhide/proc_monitor.cpp \
     resetprop/persist_properties.cpp \
     resetprop/resetprop.cpp \
     su/su.cpp \
     su/connect.cpp \
     su/pts.cpp \
-    su/su_daemon.cpp
-
-LOCAL_LDLIBS := -llog
-LOCAL_CPPFLAGS := -DENABLE_INJECT=$(ENABLE_INJECT)
-
-ifeq ($(ENABLE_INJECT),1)
-LOCAL_STATIC_LIBRARIES += libxhook
-LOCAL_SRC_FILES += \
+    su/su_daemon.cpp \
     inject/entry.cpp \
     inject/utils.cpp \
     inject/hook.cpp
-else
-LOCAL_SRC_FILES += magiskhide/proc_monitor.cpp
-endif
+
+LOCAL_LDLIBS := -llog
+LOCAL_CPPFLAGS := -DENABLE_INJECT=1
 
 include $(BUILD_EXECUTABLE)
 

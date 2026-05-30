@@ -73,7 +73,7 @@ class HomeViewModel() : BaseViewModel() {
 
     override fun refresh() = viewModelScope.launch {
         state = State.LOADED
-        managerRemoteVersion = R.string.not_available.asText()
+        managerRemoteVersion = managerInstalledVersion.asText()
         launch {
             ensureEnv()
         }

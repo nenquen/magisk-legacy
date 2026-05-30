@@ -6,6 +6,12 @@ out
 /config.prop
 /update.sh
 
+# Pre-compiled NDK patches (build artifact)
+tools/ndk-bins/
+
+# Binary build tools
+tools/elf-cleaner.exe
+
 # Built binaries
 native/out
 

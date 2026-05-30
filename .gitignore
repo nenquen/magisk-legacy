@@ -69,5 +69,20 @@ captures/
 .externalNativeBuild
 .cxx/
 
+# Compiled output dependency files
+*.d
+
+# Archives
+*.tar.gz
+*.tar
+*.gz
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Windows
+Thumbs.db
+
 # Mac OS X hidden files
 .DS_Store
